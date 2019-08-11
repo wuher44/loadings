@@ -30,7 +30,7 @@ public class TruckSet {
         this.trailerPlate = trailerPlate;
         this.driverId = driverId;
         this.name = null;
-        this.status = null;
+        this.status = Status.ACTIVE;
         this.loadingList = new ArrayList<>();
     }
 

@@ -14,7 +14,7 @@ body{
     background: url(https://i.pinimg.com/originals/49/52/67/4952670d3e78c749096d6d1f2536b324.jpg) no-repeat center center fixed;
     background-size: 100vw;
     align-items: center;
-    /*background: url("https://media2.giphy.com/media/lZd4oyt1EzC3C/giphy.gif");*/
+
 
 }
     </style>
@@ -28,6 +28,7 @@ body{
 <a href="/addLoading">Add Loading</a><br>
 <a href="/listOfLoadings">Show list of loadings</a><br>
 <a href="/listOfDrivers">Show list of drivers</a><br>
+<a href="/truckSetList">Show list of truckSets</a><br>
 
 </body>
 </html>

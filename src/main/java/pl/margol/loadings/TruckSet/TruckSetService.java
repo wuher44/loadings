@@ -3,6 +3,9 @@ package pl.margol.loadings.TruckSet;
 import org.springframework.stereotype.Service;
 import pl.margol.loadings.Utils.Status;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class TruckSetService {
     private TruckSetRepository truckSetRepository;
@@ -20,5 +23,10 @@ public class TruckSetService {
 
         return created.getId() != null;
 
+    }
+    public List<TruckSet> listAll(){
+        List<TruckSet> list = new ArrayList<>();
+        list = truckSetRepository.findAll();
+        return list;
     }
 }

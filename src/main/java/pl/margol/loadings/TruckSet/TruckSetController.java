@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.margol.loadings.Driver.DriverService;
 import pl.margol.loadings.Utils.Status;
 
+import java.util.List;
+
 @Controller
 public class TruckSetController {
 
@@ -18,23 +20,31 @@ public class TruckSetController {
         this.truckSetService = truckSetService;
         this.driverService = driverService;
     }
+
     @GetMapping("/addTruckSet")
-     String addTruckSetForm(Model model) {
+    String addTruckSetForm(Model model) {
         model.addAttribute("driversList", driverService.listAllDrivers());
         return "truckSet/addTruckSet";
     }
+
     @PostMapping("/addTruckSet")
     String addTruckSet(@RequestParam String truckPlate, @RequestParam String trailerPlate, @RequestParam Long driverId) {
-    String firstName = driverService.findDriver(driverId).getFirstName();
-    String lastName = driverService.findDriver(driverId).getLastName();
-    truckPlate=truckPlate.trim().replaceAll("\\s*", "").toUpperCase();
-    trailerPlate=trailerPlate.trim().replaceAll("\\s*", "").toUpperCase();
+        String firstName = driverService.findDriver(driverId).getFirstName();
+        String lastName = driverService.findDriver(driverId).getLastName();
+        truckPlate = truckPlate.trim().replaceAll("\\s*", "").toUpperCase();
+        trailerPlate = trailerPlate.trim().replaceAll("\\s*", "").toUpperCase();
 
         boolean created = truckSetService.create(truckPlate, trailerPlate, driverId, firstName, lastName);
-        if(created){
+        if (created) {
             driverService.editStatus(driverId, Status.NOT_AVAILABLE);
         }
 
         return "truckSet/addTruckSet";
+    }
+    @GetMapping("/truckSetList")
+    String truckSetsList (Model model){
+        List<TruckSet> list = truckSetService.listAll();
+        model.addAttribute("truckSetList", list);
+        return "truckSet/list";
     }
 }
