@@ -18,7 +18,7 @@
         <legend>Loading Creation Form</legend>
         <label>Choose TruckSet:</label>
         <form>
-            <select id="sel" style="width: 300px" name="truckSetId">
+            <select id="sel-1" style="width: 300px" name="truckSetId">
                 <c:forEach var="temp" items="${truckSetList}">
                     <c:if test="${temp.status=='ACTIVE'}">
                         <option value="${temp.id}">${temp.name}</option>
@@ -28,7 +28,12 @@
         </form>
         <br>
         <label>Customer </label>
-        <input type="text" name="customer"><br>
+        <select id="sel-2" style="width: 200px" name="customerName">
+            <c:forEach var="customer" items="${customersList}">
+                <option value="${customer.name}">${customer.name}</option>
+            </c:forEach>
+        </select>
+        <INPUT Type="BUTTON" Value="Add new customer" Onclick="window.location.href='/addCustomer'"><br>
         <label>ADR:</label>
         <input type="checkbox" name="adr">
         <br>
@@ -44,10 +49,10 @@
         <label>Loading place code:</label>
         <input type="text" name="loadingPlaceCode"><br>
         <label>Weight</label>
-        <input type="text" name="weight" style="width: 50px">
+        <input type="text" name="weight" value="24" style="width: 50px">
         <br>
         <label>Planned date and time of load</label>
-        <input type="datetime-local" name="plannedDateTimeLoad"><br>
+        <input type="datetime-local" name="plannedDateTimeLoad" value="${dateTimeNow}"><br>
         <%--<label>Date and time of load:</label><br>
         <label>Start:</label>
         <input type="datetime-local" name="startOfLoad">
@@ -59,7 +64,7 @@
         <label>Unloading place code:</label>
         <input type="text" name="unloadingPlaceCode"><br>
         <label>Planned date and time of unload</label>
-        <input type="datetime-local" name="plannedDateTimeUnload"><br>
+        <input type="datetime-local" name="plannedDateTimeUnload" value="${dateTimeNow}"><br>
         <%--<label>Date and time of unload:</label><br>
         <label>Start:</label>
         <input type="datetime-local" name="startOfUnload">

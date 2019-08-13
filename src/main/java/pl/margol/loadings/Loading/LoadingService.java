@@ -20,8 +20,15 @@ public class LoadingService {
         return created.getId() != null;
     }
 
-    List<Loading> listAllLoadings(){
+    List<Loading> listAllLoadings() {
         List<Loading> list = loadingRepository.findAll();
         return list;
+    }
+
+    public Loading findLoadingById(Long id) {
+
+        Loading loading = loadingRepository.findById(id).get();
+
+        return loading;
     }
 }

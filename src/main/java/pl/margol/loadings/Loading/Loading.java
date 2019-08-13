@@ -3,7 +3,9 @@ package pl.margol.loadings.Loading;
 import pl.margol.loadings.Utils.Status;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Loading {
@@ -34,7 +36,12 @@ public class Loading {
     public Loading() {
     }
 
-    public Loading(Long truckSetId, String customer, boolean adr, int price, String currency, String countryOfLoad, String loadingPlaceCode, double plannedWeight, LocalDateTime plannedDateAndTimeOfLoad, String countryOfUnload, String unloadingPlaceCode, LocalDateTime plannedDateAndTimeOfUnload, String notes) {
+    public Loading(Long truckSetId, String customer, boolean adr, int price, String currency,
+                   String countryOfLoad,
+                   String loadingPlaceCode, double plannedWeight,
+                   LocalDateTime plannedDateAndTimeOfLoad, String countryOfUnload,
+                   String unloadingPlaceCode, LocalDateTime plannedDateAndTimeOfUnload,
+                   String notes) {
         this.truckSetId = truckSetId;
         this.customer = customer;
         this.adr = adr;
@@ -173,6 +180,7 @@ public class Loading {
     }
 
     public void setPlannedDateAndTimeOfUnload(LocalDateTime plannedDateAndTimeOfUnload) {
+     //   plannedDateAndTimeOfLoad.toLocalDate().toString().replaceAll("-", ".")
         this.plannedDateAndTimeOfUnload = plannedDateAndTimeOfUnload;
     }
 
@@ -215,4 +223,6 @@ public class Loading {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+
 }

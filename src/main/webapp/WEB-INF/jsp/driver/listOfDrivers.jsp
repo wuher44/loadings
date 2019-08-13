@@ -99,6 +99,7 @@
     <tr>
         <td class="tg-wp8o">First name</td>
         <td class="tg-wp8o">Last name</td>
+
         <td class="tg-wp8o">Status</td>
         <td class="tg-wp8o"></td>
         <td class="tg-wp8o"></td>
@@ -109,8 +110,7 @@
         <tr>
             <th class="tg-8a48">${driver.firstName}</th>
             <th class="tg-8a48">${driver.lastName}</th>
-            <th class="tg-8a48">${driver.status}</th>
-            <!-- test     <th class="tg-8a48">${driver.truckSetList[0].name}</th> -->
+            <th class="tg-8a48">${driver.status == 'NOT_AVAILABLE' ? driver.currentTruckSet : driver.status}</th>
             <th class="tg-8a48"><a href="driver/edit/${driver.id}" style="color: white">Edit</a></th>
             <th class="tg-8a48"><a href="driver/delete/${driver.id}" style="color: white">Delete</a></th>
         </tr>

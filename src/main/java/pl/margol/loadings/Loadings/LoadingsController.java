@@ -20,4 +20,9 @@ public class LoadingsController {
     public String accessDenied() {
         return "error";
     }
+
+    @GetMapping("/")
+    String root() {
+        return "start";
+    }
 }

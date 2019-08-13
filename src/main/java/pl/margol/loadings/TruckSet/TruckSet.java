@@ -90,4 +90,5 @@ public class TruckSet {
         this.loadingList = loadingList;
     }
 
+
 }

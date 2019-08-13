@@ -5,6 +5,7 @@ import pl.margol.loadings.Utils.Status;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -64,7 +65,8 @@ public class Driver {
         this.status = status;
     }
 
-    public List<TruckSet> getTruckSetList() { return truckSetList;
+    public List<TruckSet> getTruckSetList() {
+        return truckSetList;
     }
 
     public void setTruckSetList(List<TruckSet> truckSetList) {
@@ -86,5 +88,21 @@ public class Driver {
     @Override
     public int hashCode() {
         return Objects.hash(id, firstName, lastName, status, truckSetList);
+    }
+
+    /*public String getCurrentTruckSet(){
+        return truckSetList.stream()
+                .sorted((s1,s2)-> s2.getId().compareTo(s1.getId()))
+                .findFirst()
+                .map(TruckSet::getName)
+                .orElse("");
+    }*/
+    public String getCurrentTruckSet() {
+        return truckSetList.stream()
+                .filter(ts -> ts.getStatus().equals(Status.ACTIVE))
+                .findFirst()
+                .map(TruckSet::getName)
+                .get();
+
     }
 }
