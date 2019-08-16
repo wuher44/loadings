@@ -14,7 +14,7 @@
 <body>
 
 <c:forEach var="truckSet" items="${truckSetList}">
-    <div>${truckSet.name} </div>
+    <div>${truckSet.name} ${truckSet.status} <a href="/truckSet/edit/${truckSet.id}">Change Status</a></div>
 </c:forEach>
 </body>
 </html>

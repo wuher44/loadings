@@ -102,7 +102,7 @@ public class Driver {
                 .filter(ts -> ts.getStatus().equals(Status.ACTIVE))
                 .findFirst()
                 .map(TruckSet::getName)
-                .get();
+                .orElse("");
 
     }
 }

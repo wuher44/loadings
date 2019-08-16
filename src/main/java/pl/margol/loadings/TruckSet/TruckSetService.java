@@ -13,10 +13,12 @@ public class TruckSetService {
     public TruckSetService(TruckSetRepository truckSetRepository) {
         this.truckSetRepository = truckSetRepository;
     }
-    boolean create(String truckPlate, String trailerPlate, Long driverId, String firstName, String lastName) {
+
+    boolean create(String truckPlate, String trailerPlate, Long driverId, String firstName,
+                   String lastName) {
 
         TruckSet truckSet = new TruckSet(truckPlate, trailerPlate, driverId);
-        truckSet.setName(truckPlate+" "+trailerPlate+" "+firstName+" "+lastName);
+        truckSet.setName(lastName + " " + firstName + " " + truckPlate + " " + trailerPlate);
         truckSet.setStatus(Status.ACTIVE);
 
         TruckSet created = truckSetRepository.save(truckSet);
@@ -24,9 +26,22 @@ public class TruckSetService {
         return created.getId() != null;
 
     }
-    public List<TruckSet> listAll(){
+
+    public List<TruckSet> listAll() {
         List<TruckSet> list = new ArrayList<>();
         list = truckSetRepository.findAll();
         return list;
+    }
+
+    public TruckSet findTruckSet(Long id) {
+        TruckSet truckSet = truckSetRepository.findById(id).get();
+        return truckSet;
+    }
+
+    public boolean edit(Long id, Status status) {
+        TruckSet truckSetToEdit = findTruckSet(id);
+        truckSetToEdit.setStatus(status);
+        truckSetRepository.save(truckSetToEdit);
+        return findTruckSet(id).getStatus().equals(status);
     }
 }

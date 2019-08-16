@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: MY
@@ -41,12 +42,19 @@
                 <label>Last Name:</label>
                 <input type="text" name="lastName" value="${driver.lastName}"><br>
                 <label>Status:</label><br>
-                <label>AVAILABLE</label>
-                <input type="radio" name="status" value="Available" ${driver.status==("AVAILABLE") ? 'checked' : ''}>
-                <label>NOT_AVAILABLE</label>
-                <input type="radio" name="status" value="Not_Available" ${driver.status==("NOT_AVAILABLE")  ? 'checked' : ''}>
-                <label>FIRED</label>
-                <input type="radio" name="status" value="Fired" ${driver.status==("FIRED")  ? 'checked' : ''}>
+                <c:if test="${driver.status!='NOT_AVAILABLE'}">
+                    <label>AVAILABLE</label>
+                    <input type="radio" name="status" value="Available" ${driver.status==("AVAILABLE") ? 'checked' : ''}>
+
+                </c:if>
+                <c:if test="${driver.status=='NOT_AVAILABLE'}">
+                    <label>NOT_AVAILABLE</label>
+                    <input type="radio" name="status" value="Not_Available" ${driver.status==("NOT_AVAILABLE")  ? 'checked' : ''}>
+                </c:if>
+                <c:if test="${driver.status!='NOT_AVAILABLE'}">
+                    <label>FIRED</label>
+                    <input type="radio" name="status" value="Fired" ${driver.status==("FIRED")  ? 'checked' : ''}>
+                </c:if>
                 <p style="color: crimson">Nie zmianiać tutaj statusu!!!!!!!!!!!!!!!!!!</p>
                 <br>
                 <input type="submit" value="Edit">

@@ -45,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers("/driver/edit/**").hasRole("ADMIN")
                 .mvcMatchers("/driver/delete/**").hasRole("ADMIN")
                 .mvcMatchers("/addTruckSet").hasRole("ADMIN")
+                .mvcMatchers("/truckSet/edit/**").hasRole("ADMIN")
             //    .mvcMatchers("/addLoading").permitAll()
            //     .mvcMatchers("/start").permitAll()
             //    .mvcMatchers("/**").authenticated()

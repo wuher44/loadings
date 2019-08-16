@@ -14,7 +14,7 @@ public class Loading {
     private Long id;
     private Long truckSetId;
     private String customer;
-    private boolean adr;
+    private String adr;
     private int price;
     private String currency;
     private String countryOfLoad;
@@ -36,9 +36,8 @@ public class Loading {
     public Loading() {
     }
 
-    public Loading(Long truckSetId, String customer, boolean adr, int price, String currency,
-                   String countryOfLoad,
-                   String loadingPlaceCode, double plannedWeight,
+    public Loading(Long truckSetId, String customer, String adr, int price, String currency,
+                   String countryOfLoad, String loadingPlaceCode, double plannedWeight,
                    LocalDateTime plannedDateAndTimeOfLoad, String countryOfUnload,
                    String unloadingPlaceCode, LocalDateTime plannedDateAndTimeOfUnload,
                    String notes) {
@@ -87,11 +86,11 @@ public class Loading {
         this.customer = customer;
     }
 
-    public boolean isAdr() {
+    public String getAdr() {
         return adr;
     }
 
-    public void setAdr(boolean adr) {
+    public void setAdr(String adr) {
         this.adr = adr;
     }
 
@@ -180,7 +179,7 @@ public class Loading {
     }
 
     public void setPlannedDateAndTimeOfUnload(LocalDateTime plannedDateAndTimeOfUnload) {
-     //   plannedDateAndTimeOfLoad.toLocalDate().toString().replaceAll("-", ".")
+
         this.plannedDateAndTimeOfUnload = plannedDateAndTimeOfUnload;
     }
 

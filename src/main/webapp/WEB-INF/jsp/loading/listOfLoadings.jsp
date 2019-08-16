@@ -88,7 +88,10 @@
 
 </style>
 <body>
-
+<INPUT Type="BUTTON" Value="Add loading" Onclick="window.location.href='/addLoading'">
+<INPUT Type="BUTTON" Value="Start" Onclick="window.location.href='/start'">
+<br>
+<br>
 <table class="tg" align="center">
     <tr>
         <th class="tg-wp8o" rowspan="2">TruckSet Id</th>
@@ -146,17 +149,48 @@
                     <a href="#">${loading.endOfLoad.toLocalDate().toString().replaceAll("-", ".")} ${loading.endOfLoad.toLocalTime()}</a>
                 </c:if>
             </td>
-            <td class="tg-8a48"><a href="#">${loading.loadedWeight}</a></td>
+            <td class="tg-8a48">
+                <c:if test="${loading.loadedWeight==null}">
+                    <INPUT Type="BUTTON" Value="SET" Onclick="window.location.href='/loading/setLoad/${loading.id}'">
+                </c:if>
+                <c:if test="${loading.loadedWeight!=null}">
+                    <a href="#">${loading.loadedWeight}</a>
+                </c:if>
+            </td>
             <td class="tg-8a48"><a href="#">${loading.countryOfUnload}</a></td>
             <td class="tg-8a48"><a href="#">${loading.unloadingPlaceCode}</a></td>
             <td class="tg-8a48">
                 <a href="#">${loading.plannedDateAndTimeOfUnload.toLocalDate().toString().replaceAll("-", ".")} ${loading.plannedDateAndTimeOfUnload.toLocalTime()}</a>
             </td>
+
             <td class="tg-8a48">
-                <a href="#">${loading.startOfUnload.toLocalDate().toString().replaceAll("-", ".")} ${loading.startOfUnload.toLocalTime()}</a>
+
+
+                <c:if test="${loading.startOfUnload==null}">
+                    <c:if test="${loading.status=='LOADED'}">
+                        <INPUT Type="BUTTON" Value="SET" Onclick="window.location.href='/loading/setUnload/${loading.id}'">
+                    </c:if>
+                    <c:if test="${loading.status!='LOADED'}">
+                        <a href="#">${loading.startOfUnload.toLocalDate().toString().replaceAll("-", ".")} ${loading.startOfUnload.toLocalTime()}</a>
+                    </c:if>
+                </c:if>
+                <c:if test="${loading.startOfUnload!=null}">
+                    <a href="#">${loading.startOfUnload.toLocalDate().toString().replaceAll("-", ".")} ${loading.startOfUnload.toLocalTime()}</a>
+                </c:if>
+
             </td>
             <td class="tg-8a48">
-                <a href="#">${loading.endOfUnload.toLocalDate().toString().replaceAll("-", ".")} ${loading.endOfUnload.toLocalTime()}</a>
+                <c:if test="${loading.endOfUnload==null}">
+                    <c:if test="${loading.status=='LOADED'}">
+                        <INPUT Type="BUTTON" Value="SET" Onclick="window.location.href='/loading/setUnload/${loading.id}'">
+                    </c:if>
+                    <c:if test="${loading.status!='LOADED'}">
+                        <a href="#">${loading.endOfUnload.toLocalDate().toString().replaceAll("-", ".")} ${loading.endOfUnload.toLocalTime()}</a>
+                    </c:if>
+                </c:if>
+                <c:if test="${loading.endOfUnload!=null}">
+                    <a href="#">${loading.endOfUnload.toLocalDate().toString().replaceAll("-", ".")} ${loading.endOfUnload.toLocalTime()}</a>
+                </c:if>
             </td>
             <td class="tg-8a48"><a href="#">${loading.notes}</a></td>
             <td class="tg-8a48"><a href="#">${loading.status}</a></td>
@@ -167,8 +201,5 @@
 </table>
 
 
-<c:forEach var="loading" items="${listOfAllLoadings}">
-    <div>${loading.customer} ${loading.price} ${loading.currency} ${loading.countryOfLoad} ${loading.loadingPlaceCode} ${loading.status}</div>
-</c:forEach>
 </body>
 </html>

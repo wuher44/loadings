@@ -34,8 +34,14 @@
             </c:forEach>
         </select>
         <INPUT Type="BUTTON" Value="Add new customer" Onclick="window.location.href='/addCustomer'"><br>
-        <label>ADR:</label>
-        <input type="checkbox" name="adr">
+        <label>ADR Class:</label>
+
+        <select id="sel-3" style="width: 50px" name="adr">
+            <c:forEach var="adrCode" items="${adrCodes}">
+                <option value="${adrCode}">${adrCode}</option>
+            </c:forEach>
+        </select>
+
         <br>
         <label>Price: </label>
         <input type="text" name="price">
@@ -45,11 +51,18 @@
         </select>
         <br>
         <label>Country of load :</label>
-        <input type="text" name="countryOfLoad" style="width: 50px">
+        <select id="sel-4" style="width: 50px" name="countryOfLoad">
+            <c:forEach var="country" items="${countries}">
+                <option value="${country}">${country}</option>
+            </c:forEach>
+        </select>
+
+
+       <%-- <input type="text" name="countryOfLoad" style="width: 50px">--%>
         <label>Loading place code:</label>
         <input type="text" name="loadingPlaceCode"><br>
         <label>Weight</label>
-        <input type="text" name="weight" value="24" style="width: 50px">
+        <input type="text" name="weight" value="24.0" style="width: 50px">
         <br>
         <label>Planned date and time of load</label>
         <input type="datetime-local" name="plannedDateTimeLoad" value="${dateTimeNow}"><br>
@@ -60,7 +73,13 @@
         <input type="datetime-local" name="endOfLoad">
         <br>--%>
         <label>Country of unload :</label>
-        <input type="text" name="countryOfUnload" style="width: 50px">
+        <select id="sel-5" style="width: 50px" name="countryOfUnload">
+            <c:forEach var="country" items="${countries}">
+                <option value="${country}">${country}</option>
+            </c:forEach>
+        </select>
+
+       <%-- <input type="text" name="countryOfUnload" style="width: 50px">--%>
         <label>Unloading place code:</label>
         <input type="text" name="unloadingPlaceCode"><br>
         <label>Planned date and time of unload</label>
@@ -73,8 +92,11 @@
         <label>Loaded Weight</label>
         <input type="text" name="weight">--%>
         <label>Notes:</label>
-        <input type="text" name="notes"><br>
+        <input type="text" name="notes"><br><br>
+        <p>${info}</p>
         <input type="submit" value="Add">
+        <INPUT Type="BUTTON" Value="List of loadings" Onclick="window.location.href='/listOfLoadings'">
+        <INPUT Type="BUTTON" Value="Start" Onclick="window.location.href='/start'">
     </fieldset>
 
 </form>
