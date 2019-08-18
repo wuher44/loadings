@@ -1,8 +1,6 @@
 package pl.margol.loadings.Loading;
 
 import org.springframework.stereotype.Service;
-import pl.margol.loadings.TruckSet.TruckSet;
-
 import java.util.List;
 
 @Service

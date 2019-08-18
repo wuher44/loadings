@@ -139,7 +139,6 @@
             </c:if>
         </td>
         <td class="tg-8a48">
-
             <c:if test="${loading.loadedWeight!=null}">
                 ${loading.loadedWeight}
             </c:if>
@@ -149,14 +148,10 @@
         <td class="tg-8a48">
             ${loading.plannedDateAndTimeOfUnload.toLocalDate().toString().replaceAll("-", ".")} ${loading.plannedDateAndTimeOfUnload.toLocalTime()}
         </td>
-
         <td class="tg-8a48">
-
-
             <c:if test="${loading.startOfUnload!=null}">
                 ${loading.startOfUnload.toLocalDate().toString().replaceAll("-", ".")} ${loading.startOfUnload.toLocalTime()}
             </c:if>
-
         </td>
         <td class="tg-8a48">
 
@@ -182,10 +177,8 @@
             <label>Weight: </label><input type="text" name="weight" style="width: 50px"><br><br>
             <input type="submit" value="Set">
             <INPUT Type="BUTTON" Value="Exit" Onclick="window.location.href='/listOfLoadings'">
-
         </form>
     </fieldset>
 </div>
-
 </body>
 </html>

@@ -135,8 +135,6 @@
                     </select>
                     <br><br>
                     <input class="button" type="submit" value="Add TruckSet">
-                    <%--<input Type="BUTTON" Value="Exit" Onclick="window.location.href='/start'">--%>
-
                 </form>
             </div>
         </fieldset>

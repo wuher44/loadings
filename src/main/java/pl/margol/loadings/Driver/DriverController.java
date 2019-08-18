@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.margol.loadings.Utils.Status;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,23 +32,18 @@ public class DriverController {
         firstName = firstName.replaceAll("\\s*", "").toUpperCase().trim();
         lastName = lastName.replaceAll("\\s*", "").toUpperCase().trim();
 
-        if(!firstName.matches("[A-Z]+")||!lastName.matches("[A-Z]+")){
+        if (!firstName.matches("[A-Z]+") || !lastName.matches("[A-Z]+")) {
             model.addAttribute("info", "Name have to contain only letters!!!!!!");
             return "driver/addDriver";
         }
 
         if (driverService.searchDriverByName(firstName, lastName).isEmpty()) {
-            try {
-                boolean result = driverService.create(firstName, lastName);
-                model.addAttribute("DriverCreated", result);
-                List<Driver> driversList = driverService.listAllDrivers();
-                model.addAttribute("driversList", driversList);
 
+            boolean result = driverService.create(firstName, lastName);
+            model.addAttribute("DriverCreated", result);
+            List<Driver> driversList = driverService.listAllDrivers();
+            model.addAttribute("driversList", driversList);
 
-            } catch (Exception e) {
-            /*model.addAttribute("errorMessage", e.getLocalizedMessage());
-            return "user/user";*/
-            }
             return "driver/addDriver";
         } else {
             model.addAttribute("info", "Driver already exist!!!!!!");
@@ -73,14 +69,15 @@ public class DriverController {
     }
 
     @PostMapping("/listOfDrivers")
-    String driversListView(@RequestParam(required = false) String phrase, @RequestParam String show, Model model) {
+    String driversListView(@RequestParam(required = false) String phrase,
+                           @RequestParam String show, Model model) {
 
         if (phrase == null || phrase.isEmpty()) {
             if (show.equals("all")) {
                 List<Driver> driversList = driverService.listAllDrivers().stream()
                         .sorted(Comparator.comparing(Driver::getLastName))
                         .collect(Collectors.toList());
-                //    model.addAttribute("truckSetName", driversList.get(0).getTruckSetList().get(0).getName());
+
                 model.addAttribute("driversList", driversList);
                 model.addAttribute("show", 1);
                 return "driver/listOfDrivers";
@@ -168,27 +165,32 @@ public class DriverController {
         model.addAttribute("driver", driverService.findDriver(id));
 
 
-        //  model.addAttribute("laststatus", driverService.findDriver(id).getStatus().name());
         return "/driver/edit";
     }
 
     @PostMapping("/driver/edit/{id}")
-    String editDriver(@PathVariable long id, @RequestParam String firstName, @RequestParam String lastName,
+    String editDriver(@PathVariable long id, @RequestParam String firstName,
+                      @RequestParam String lastName,
                       @RequestParam String status, Model model) {
 
-        boolean result = driverService.edit(id, firstName.trim().replaceAll("\\s*", "").toUpperCase(), lastName.trim().replaceAll("\\s*", "").toUpperCase(), status.equals("Available") ? Status.AVAILABLE : status.equals("Not_Available") ? Status.NOT_AVAILABLE : Status.FIRED);
-        //  model.addAttribute("DriverEdited", result);
+        boolean result = driverService.edit(id,
+                firstName.trim().replaceAll("\\s*", "").toUpperCase(),
+                lastName.trim().replaceAll("\\s*", "").toUpperCase(), status.equals("Available")
+                        ? Status.AVAILABLE : status.equals("Not_Available") ?
+                        Status.NOT_AVAILABLE : Status.FIRED);
+
         return "redirect:/listOfDrivers";
     }
 
     @PostMapping("/searchDriver")
     String searchDriver(@RequestParam String phrase, Model model) {
         if (phrase == null || phrase.isEmpty()) {
-            //  model.addAttribute("list", driverService.listAllDrivers());
+
             return "redirect:/listOfDrivers";
         } else {
             List<Driver> driversList = driverService.searchDriverByPhrase(phrase.toUpperCase());
             model.addAttribute("driversList", driversList);
+
             return "driver/listOfDrivers";
         }
     }

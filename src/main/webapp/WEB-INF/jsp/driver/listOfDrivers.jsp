@@ -188,14 +188,11 @@
             <tr>
                 <td class="tg-wp8o">First name</td>
                 <td class="tg-wp8o">Last name</td>
-
                 <td class="tg-wp8o">Status</td>
                 <td class="tg-wp8o"></td>
                 <td class="tg-wp8o"></td>
             </tr>
-
             <c:forEach var="driver" items="${driversList}">
-
                 <tr>
                     <th class="tg-8a48">${driver.firstName}</th>
                     <th class="tg-8a48">${driver.lastName}</th>
@@ -207,7 +204,6 @@
                         <INPUT class="button" Type="BUTTON" Value="DELETE" Onclick="window.location.href='driver/delete/${driver.id}'">
                     </th>
                 </tr>
-
             </c:forEach>
         </table>
     </div>

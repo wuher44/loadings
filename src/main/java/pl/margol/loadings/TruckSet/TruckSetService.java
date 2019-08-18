@@ -2,7 +2,6 @@ package pl.margol.loadings.TruckSet;
 
 import org.springframework.stereotype.Service;
 import pl.margol.loadings.Utils.Status;
-
 import java.util.ArrayList;
 import java.util.List;
 

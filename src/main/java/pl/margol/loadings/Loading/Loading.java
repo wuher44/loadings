@@ -1,11 +1,8 @@
 package pl.margol.loadings.Loading;
 
 import pl.margol.loadings.Utils.Status;
-
 import javax.persistence.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Loading {

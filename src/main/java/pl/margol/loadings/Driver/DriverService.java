@@ -41,8 +41,6 @@ public class DriverService {
         edited.setFirstName(firstName);
         edited.setLastName(lastName);
         edited.setStatus(status);
-        //findDriver(id).setFirstName(firstName);
-        // findDriver(id).setLastName(lastName);
         driverRepository.save(edited);
 
         return edited.getFirstName().equals(firstName) && edited.getLastName().equals(lastName) && edited.getStatus() == status;

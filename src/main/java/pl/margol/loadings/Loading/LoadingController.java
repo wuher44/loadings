@@ -1,6 +1,5 @@
 package pl.margol.loadings.Loading;
 
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +15,6 @@ import pl.margol.loadings.Utils.Status;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -79,7 +77,8 @@ public class LoadingController {
             List<Customer> customers = customerService.findAll();
             customers.sort(Comparator.comparing(Customer::getName));
             model.addAttribute("truckSetList", truckSetService.listAll());
-            model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
+            model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8,
+                    0)));
             model.addAttribute("customersList", customers);
             model.addAttribute("adrCodes", adrCodes);
             model.addAttribute("countries", countries);
@@ -98,7 +97,8 @@ public class LoadingController {
             List<Customer> customers = customerService.findAll();
             customers.sort(Comparator.comparing(Customer::getName));
             model.addAttribute("truckSetList", truckSetService.listAll());
-            model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
+            model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8,
+                    0)));
             model.addAttribute("customersList", customers);
             model.addAttribute("adrCodes", adrCodes);
             model.addAttribute("countries", countries);
@@ -116,7 +116,8 @@ public class LoadingController {
             List<Customer> customers = customerService.findAll();
             customers.sort(Comparator.comparing(Customer::getName));
             model.addAttribute("truckSetList", truckSetService.listAll());
-            model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
+            model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8,
+                    0)));
             model.addAttribute("customersList", customers);
             model.addAttribute("adrCodes", adrCodes);
             model.addAttribute("countries", countries);
@@ -132,7 +133,8 @@ public class LoadingController {
             List<Customer> customers = customerService.findAll();
             customers.sort(Comparator.comparing(Customer::getName));
             model.addAttribute("truckSetList", truckSetService.listAll());
-            model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
+            model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8,
+                    0)));
             model.addAttribute("customersList", customers);
             model.addAttribute("adrCodes", adrCodes);
             model.addAttribute("countries", countries);
@@ -148,7 +150,8 @@ public class LoadingController {
             List<Customer> customers = customerService.findAll();
             customers.sort(Comparator.comparing(Customer::getName));
             model.addAttribute("truckSetList", truckSetService.listAll());
-            model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
+            model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8,
+                    0)));
             model.addAttribute("customersList", customers);
             model.addAttribute("adrCodes", adrCodes);
             model.addAttribute("countries", countries);
@@ -156,7 +159,7 @@ public class LoadingController {
             return "/loading/addLoading";
         }
 
-        if(plannedDateTimeLoad.isAfter(plannedDateTimeUnload)){
+        if (plannedDateTimeLoad.isAfter(plannedDateTimeUnload)) {
             List<String> adrCodes = Arrays.asList("-", "1", "2", "3", "4", "5", "6", "7", "8", "9");
 
             List<String> countries = Arrays.asList("AT", "B", "BG", "CZ", "D", "DK", "EST", "ESP",
@@ -165,7 +168,8 @@ public class LoadingController {
             List<Customer> customers = customerService.findAll();
             customers.sort(Comparator.comparing(Customer::getName));
             model.addAttribute("truckSetList", truckSetService.listAll());
-            model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
+            model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8,
+                    0)));
             model.addAttribute("customersList", customers);
             model.addAttribute("adrCodes", adrCodes);
             model.addAttribute("countries", countries);
@@ -180,9 +184,9 @@ public class LoadingController {
                 plannedDateTimeUnload, notes);
 
         boolean result = loadingService.createLoading(newLoading);
-        //  model.addAttribute("listOfAllLoadings", loadingService.listAllLoadings());
+
         return "redirect:/listOfLoadings";
-        //  return "loading/listOfLoadings";
+
     }
 
     @GetMapping("/listOfLoadings")

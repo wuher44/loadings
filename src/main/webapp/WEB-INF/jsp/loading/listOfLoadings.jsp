@@ -125,9 +125,7 @@
         <th class="tg-wp8o">Start</th>
         <th class="tg-wp8o">End</th>
     </tr>
-
     <c:forEach var="loading" items="${listOfAllLoadings}">
-
         <tr class="row">
             <td class="tg-8a48"><a href="#">${loading.truckSetId}</a></td>
             <td class="tg-8a48"><a href="#">${loading.customer}</a></td>
@@ -169,10 +167,7 @@
             <td class="tg-8a48">
                 <a href="#">${loading.plannedDateAndTimeOfUnload.toLocalDate().toString().replaceAll("-", ".")} ${loading.plannedDateAndTimeOfUnload.toLocalTime()}</a>
             </td>
-
             <td class="tg-8a48">
-
-
                 <c:if test="${loading.startOfUnload==null}">
                     <c:if test="${loading.status=='LOADED'}">
                         <INPUT class="button" Type="BUTTON" Value="SET" Onclick="window.location.href='/loading/setUnload/${loading.id}'">
@@ -184,7 +179,6 @@
                 <c:if test="${loading.startOfUnload!=null}">
                     <a href="#">${loading.startOfUnload.toLocalDate().toString().replaceAll("-", ".")} ${loading.startOfUnload.toLocalTime()}</a>
                 </c:if>
-
             </td>
             <td class="tg-8a48">
                 <c:if test="${loading.endOfUnload==null}">
@@ -202,11 +196,7 @@
             <td class="tg-8a48"><a href="#">${loading.notes}</a></td>
             <td class="tg-8a48"><a href="#">${loading.status}</a></td>
         </tr>
-
     </c:forEach>
-
 </table>
-
-
 </body>
 </html>

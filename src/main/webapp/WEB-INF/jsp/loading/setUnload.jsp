@@ -149,17 +149,12 @@
         <td class="tg-8a48">
             ${loading.plannedDateAndTimeOfUnload.toLocalDate().toString().replaceAll("-", ".")} ${loading.plannedDateAndTimeOfUnload.toLocalTime()}
         </td>
-
         <td class="tg-8a48">
-
-
             <c:if test="${loading.startOfUnload!=null}">
                 ${loading.startOfUnload.toLocalDate().toString().replaceAll("-", ".")} ${loading.startOfUnload.toLocalTime()}
             </c:if>
-
         </td>
         <td class="tg-8a48">
-
             <c:if test="${loading.endOfUnload!=null}">
                 ${loading.endOfUnload.toLocalDate().toString().replaceAll("-", ".")} ${loading.endOfUnload.toLocalTime()}
             </c:if>

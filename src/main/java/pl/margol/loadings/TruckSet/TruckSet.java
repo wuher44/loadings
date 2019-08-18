@@ -1,6 +1,5 @@
 package pl.margol.loadings.TruckSet;
 
-
 import pl.margol.loadings.Loading.Loading;
 import pl.margol.loadings.Utils.Status;
 import javax.persistence.*;

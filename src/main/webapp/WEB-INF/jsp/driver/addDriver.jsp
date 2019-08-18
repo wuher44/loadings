@@ -116,8 +116,6 @@
         <div class="menu-item"><a href="/truckSetList">List of truckSets</a></div>
 
     </div>
-
-
     <div class="form">
         <fieldset>
             <legend>Create Driver</legend>
@@ -143,6 +141,5 @@
         Your Loadings Manager &copy wuher44@gmail.com
     </div>
 </div>
-
 </body>
 </html>

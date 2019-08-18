@@ -16,8 +16,6 @@
         background: url(https://i.pinimg.com/originals/49/52/67/4952670d3e78c749096d6d1f2536b324.jpg) no-repeat center center fixed;
         background-size: 100vw;
         align-items: center;
-
-
     }
 
     .container {
@@ -36,7 +34,6 @@
 
     .menu {
         width: 200px;
-        /*background-color: rgba(5, 17, 43, 0.7);*/
         float: left;
         height: auto;
         margin-top: 5px;
@@ -87,6 +84,7 @@
         background-color: rgba(5, 17, 43, 0.9);
     }
 </style>
+
 <body>
 <div class="container">
     <div class="logo">
@@ -118,7 +116,6 @@
                     </c:forEach>
                 </select>
             </form>
-
             <label>Customer </label>
             <select id="sel-2" style="width: 200px" name="customerName">
                 <c:forEach var="customer" items="${customersList}">
@@ -147,44 +144,23 @@
                     <option value="${country}">${country}</option>
                 </c:forEach>
             </select>
-            <%-- <input type="text" name="countryOfLoad" style="width: 50px">--%>
             <label>Loading place code:</label>
             <input type="text" name="loadingPlaceCode"><br><br>
-
             <label>Planned date of load</label>
             <input type="datetime-local" name="plannedDateTimeLoad" value="${dateTimeNow}"> <label>Planned
             date of unload</label>
             <input type="datetime-local" name="plannedDateTimeUnload" value="${dateTimeNow}"><br><br>
-            <%--<label>Date and time of load:</label><br>
-            <label>Start:</label>
-            <input type="datetime-local" name="startOfLoad">
-            <label>End:</label>
-            <input type="datetime-local" name="endOfLoad">
-            <br>--%>
             <label>Country of unload :</label>
             <select id="sel-5" style="width: 50px" name="countryOfUnload">
                 <c:forEach var="country" items="${countries}">
                     <option value="${country}">${country}</option>
                 </c:forEach>
             </select>
-            <%-- <input type="text" name="countryOfUnload" style="width: 50px">--%>
             <label>Unloading place code:</label>
             <input type="text" name="unloadingPlaceCode"><br>
-
-            <%--<label>Date and time of unload:</label><br>
-            <label>Start:</label>
-            <input type="datetime-local" name="startOfUnload">
-            <label>End:</label>
-            <input type="datetime-local" name="endOfUnload"><br>
-            <label>Loaded Weight</label>
-            <input type="text" name="weight">--%>
             <p>${info}</p><label>Notes:</label>
             <input type="text" name="notes"> <input type="submit" value="Add loading" style="border-radius: 5px; background-color: red; border-color: darkred;
         color: white;">
-
-
-            <%--<INPUT Type="BUTTON" Value="List of loadings" Onclick="window.location.href='/listOfLoadings'">
-            <INPUT Type="BUTTON" Value="Start" Onclick="window.location.href='/start'">--%>
         </form>
     </div>
     <div class="footer">
