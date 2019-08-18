@@ -16,8 +16,6 @@
         background: url(https://i.pinimg.com/originals/49/52/67/4952670d3e78c749096d6d1f2536b324.jpg) no-repeat center center fixed;
         background-size: 100vw;
         align-items: center;
-
-
     }
 
     .container {
@@ -36,7 +34,6 @@
 
     .menu {
         width: 200px;
-        /*background-color: rgba(5, 17, 43, 0.7);*/
         float: left;
         height: auto;
         margin-top: 5px;
@@ -72,7 +69,6 @@
         text-decoration: none;
         color: red;
         display: block;
-        /*height: 50px;*/
         width: auto;;
     }
 
@@ -143,7 +139,7 @@
         </c:if>
     </div>
     <div class="footer">
-        Your Loadings Manager &copy wuher44@gmail.com
+        Your Loadings Manager 1.0 &copy wuher44@gmail.com
     </div>
 
 

@@ -20,8 +20,6 @@
 
     .tg a {
         display: block;
-        /*height: 100%;
-        width: 100%;*/
         text-decoration: none;
         color: red;
         padding: revert;

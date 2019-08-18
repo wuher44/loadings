@@ -36,7 +36,6 @@
 
     .menu {
         width: 200px;
-        /*background-color: rgba(5, 17, 43, 0.7);*/
         float: left;
         height: auto;
         margin-top: 5px;
@@ -72,7 +71,6 @@
         text-decoration: none;
         color: red;
         display: block;
-        /*height: 50px;*/
         width: auto;;
     }
 
@@ -132,7 +130,7 @@
         </fieldset>
     </div>
     <div class="footer">
-        Your Loadings Manager &copy wuher44@gmail.com
+        Your Loadings Manager 1.0 &copy wuher44@gmail.com
     </div>
 </div>
 </body>

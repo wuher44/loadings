@@ -203,7 +203,7 @@
         </table>
     </div>
     <div class="footer">
-        Your Loadings Manager &copy wuher44@gmail.com
+        Your Loadings Manager 1.0 &copy wuher44@gmail.com
     </div>
 </div>
 </body>
