@@ -57,7 +57,7 @@
     .tg th {
         font-family: Arial, sans-serif;
         font-size: 1vw;
-        color: black;
+        color: white;
         font-weight: normal;
         padding: 10px 5px;
         border-style: solid;
@@ -84,6 +84,13 @@
         border-color: #000000;
         text-align: center;
         vertical-align: top
+    }
+
+    .button {
+        background-color: red;
+        border-radius: 5px;
+        border-color: darkred;
+        color: white;
     }
 
 </style>
@@ -135,7 +142,7 @@
             </td>
             <td class="tg-8a48">
                 <c:if test="${loading.startOfLoad==null}">
-                    <INPUT Type="BUTTON" Value="SET" Onclick="window.location.href='/loading/setLoad/${loading.id}'">
+                    <INPUT class="button" Type="BUTTON" Value="SET" Onclick="window.location.href='/loading/setLoad/${loading.id}'">
                 </c:if>
                 <c:if test="${loading.startOfLoad!=null}">
                     <a href="#">${loading.startOfLoad.toLocalDate().toString().replaceAll("-", ".")} ${loading.startOfLoad.toLocalTime()}</a>
@@ -143,7 +150,7 @@
             </td>
             <td class="tg-8a48">
                 <c:if test="${loading.endOfLoad==null}">
-                    <INPUT Type="BUTTON" Value="SET" Onclick="window.location.href='/loading/setLoad/${loading.id}'">
+                    <INPUT class="button" Type="BUTTON" Value="SET" Onclick="window.location.href='/loading/setLoad/${loading.id}'">
                 </c:if>
                 <c:if test="${loading.endOfLoad!=null}">
                     <a href="#">${loading.endOfLoad.toLocalDate().toString().replaceAll("-", ".")} ${loading.endOfLoad.toLocalTime()}</a>
@@ -151,7 +158,7 @@
             </td>
             <td class="tg-8a48">
                 <c:if test="${loading.loadedWeight==null}">
-                    <INPUT Type="BUTTON" Value="SET" Onclick="window.location.href='/loading/setLoad/${loading.id}'">
+                    <INPUT class="button" Type="BUTTON" Value="SET" Onclick="window.location.href='/loading/setLoad/${loading.id}'">
                 </c:if>
                 <c:if test="${loading.loadedWeight!=null}">
                     <a href="#">${loading.loadedWeight}</a>
@@ -168,7 +175,7 @@
 
                 <c:if test="${loading.startOfUnload==null}">
                     <c:if test="${loading.status=='LOADED'}">
-                        <INPUT Type="BUTTON" Value="SET" Onclick="window.location.href='/loading/setUnload/${loading.id}'">
+                        <INPUT class="button" Type="BUTTON" Value="SET" Onclick="window.location.href='/loading/setUnload/${loading.id}'">
                     </c:if>
                     <c:if test="${loading.status!='LOADED'}">
                         <a href="#">${loading.startOfUnload.toLocalDate().toString().replaceAll("-", ".")} ${loading.startOfUnload.toLocalTime()}</a>
@@ -182,7 +189,7 @@
             <td class="tg-8a48">
                 <c:if test="${loading.endOfUnload==null}">
                     <c:if test="${loading.status=='LOADED'}">
-                        <INPUT Type="BUTTON" Value="SET" Onclick="window.location.href='/loading/setUnload/${loading.id}'">
+                        <INPUT class="button" Type="BUTTON" Value="SET" Onclick="window.location.href='/loading/setUnload/${loading.id}'">
                     </c:if>
                     <c:if test="${loading.status!='LOADED'}">
                         <a href="#">${loading.endOfUnload.toLocalDate().toString().replaceAll("-", ".")} ${loading.endOfUnload.toLocalTime()}</a>
