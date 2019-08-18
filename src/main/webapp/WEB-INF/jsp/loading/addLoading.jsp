@@ -179,7 +179,7 @@
             <label>Loaded Weight</label>
             <input type="text" name="weight">--%>
             <p>${info}</p><label>Notes:</label>
-            <input type="text" name="notes"> <input type="submit" value="Add" style="border-radius: 5px; background-color: red; border-color: darkred;
+            <input type="text" name="notes"> <input type="submit" value="Add loading" style="border-radius: 5px; background-color: red; border-color: darkred;
         color: white;">
 
 

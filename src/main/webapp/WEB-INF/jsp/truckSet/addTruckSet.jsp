@@ -87,6 +87,13 @@
     .menu-item:hover {
         background-color: rgba(5, 17, 43, 0.9);
     }
+
+    .button {
+        background-color: red;
+        border-radius: 5px;
+        border-color: darkred;
+        color: white;
+    }
 </style>
 
 <body>
@@ -109,28 +116,30 @@
 
     </div>
     <div class="form">
-        <h2>Create TruckSet</h2>
-        <div>
-            <form method="post" action="/addTruckSet">
-                <label>Truck Plate: </label>
-                <input type="text" name="truckPlate"><br><br>
-                <label>Trailer Plate: </label>
-                <input type="text" name="trailerPlate">
-                <br><br>
-                <label>Choose available driver: </label>
-                <select id="sel" style="width: 200px" name="driverId">
-                    <c:forEach var="temp" items="${driversList}">
-                        <c:if test="${temp.status=='AVAILABLE'}">
-                            <option value="${temp.id}">${temp.firstName} ${temp.lastName}</option>
-                        </c:if>
-                    </c:forEach>
-                </select>
-                <br><br>
-                <input type="submit" value="Add TruckSet">
-                <%--<input Type="BUTTON" Value="Exit" Onclick="window.location.href='/start'">--%>
+        <fieldset>
+            <legend>Create TruckSet</legend>
+            <div>
+                <form method="post" action="/addTruckSet">
+                    <label>Truck Plate: </label>
+                    <input type="text" name="truckPlate"><br><br>
+                    <label>Trailer Plate: </label>
+                    <input type="text" name="trailerPlate">
+                    <br><br>
+                    <label>Choose available driver: </label>
+                    <select id="sel" style="width: 200px" name="driverId">
+                        <c:forEach var="temp" items="${driversList}">
+                            <c:if test="${temp.status=='AVAILABLE'}">
+                                <option value="${temp.id}">${temp.firstName} ${temp.lastName}</option>
+                            </c:if>
+                        </c:forEach>
+                    </select>
+                    <br><br>
+                    <input class="button" type="submit" value="Add TruckSet">
+                    <%--<input Type="BUTTON" Value="Exit" Onclick="window.location.href='/start'">--%>
 
-            </form>
-        </div>
+                </form>
+            </div>
+        </fieldset>
         <c:if test="${TruckSetCreated}">
             TruckSet Created!
         </c:if>
@@ -138,9 +147,6 @@
     <div class="footer">
         Your Loadings Manager &copy wuher44@gmail.com
     </div>
-
-
-
 
 
     <c:forEach var="driver" items="${driversList}">

@@ -89,6 +89,13 @@
     .menu-item:hover {
         background-color: rgba(5, 17, 43, 0.9);
     }
+
+    .button {
+        background-color: red;
+        border-radius: 5px;
+        border-color: darkred;
+        color: white;
+    }
 </style>
 <body>
 <div class="container">
@@ -109,26 +116,28 @@
         <div class="menu-item"><a href="/truckSetList">List of truckSets</a></div>
 
     </div>
+
+
     <div class="form">
-        <h2>Create Driver</h2>
-
-        <div>
-            <form method="post" action="/addDriver">
-                <label>First Name:</label>
-                <input type="text" name="firstName"><br><br>
-                <label>Last Name:</label>
-                <input type="text" name="lastName"><br><br>
-                <input type="submit" value="Add Driver">
-            </form>
-        </div>
-        <c:if test="${DriverCreated}">
-            <p style="color: greenyellow">Driver Created!</p>
-        </c:if>
-        <p style="color: red">${info}</p>
-        <c:forEach var="driver" items="${driversList}">
-            <div>${driver.firstName} ${driver.lastName} ${driver.status}</div>
-        </c:forEach>
-
+        <fieldset>
+            <legend>Create Driver</legend>
+            <div>
+                <form method="post" action="/addDriver">
+                    <label>First Name:</label>
+                    <input type="text" name="firstName"><br><br>
+                    <label>Last Name:</label>
+                    <input type="text" name="lastName"><br><br>
+                    <input class="button" type="submit" value="Add Driver">
+                </form>
+            </div>
+            <c:if test="${DriverCreated}">
+                <p style="color: greenyellow">Driver Created!</p>
+            </c:if>
+            <p style="color: red">${info}</p>
+            <c:forEach var="driver" items="${driversList}">
+                <div>${driver.firstName} ${driver.lastName} ${driver.status}</div>
+            </c:forEach>
+        </fieldset>
     </div>
     <div class="footer">
         Your Loadings Manager &copy wuher44@gmail.com
