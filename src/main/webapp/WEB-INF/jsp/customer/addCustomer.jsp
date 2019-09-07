@@ -113,7 +113,7 @@
         <fieldset>
             <legend>Add Customer</legend>
             <form method="post" action="/addCustomer">
-                <input type="text" name="customer">
+                <input type="text" name="customerName">
                 <p>${info}</p><br>
                 <input class="button" type="submit" value="Add Customer">
             </form>

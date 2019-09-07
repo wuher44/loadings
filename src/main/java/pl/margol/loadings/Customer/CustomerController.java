@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class CustomerController {
-    CustomerService customerService;
+    private final CustomerService customerService;
 
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
@@ -20,8 +20,8 @@ public class CustomerController {
     }
 
     @PostMapping("/addCustomer")
-    String addCustomer(@RequestParam String customer, Model model) {
-        Customer newCustomer = new Customer(customer.toUpperCase());
+    String addCustomer(@RequestParam String customerName, Model model) {
+        Customer newCustomer = new Customer(customerName.toUpperCase());
 
         boolean result = customerService.created(newCustomer);
         if (!result) {

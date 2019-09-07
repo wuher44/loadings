@@ -17,6 +17,8 @@ public interface DriverRepository extends CrudRepository<Driver, Long> {
     @Query("select d from Driver d where d.firstName like %:firstName% and d.lastName like %:lastName% ")
     List<Driver> searchDriverByName(@Param("firstName") String firstName, @Param("lastName") String lastName);
 
+
+
 }
 
 
