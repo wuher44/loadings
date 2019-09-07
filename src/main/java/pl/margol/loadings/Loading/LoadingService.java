@@ -1,10 +1,16 @@
 package pl.margol.loadings.Loading;
 
-import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import pl.margol.loadings.Utils.Status;
 
 @Service
 public class LoadingService {
+
     private LoadingRepository loadingRepository;
 
     public LoadingService(LoadingRepository loadingRepository) {
@@ -12,7 +18,6 @@ public class LoadingService {
     }
 
     boolean createLoading(Loading loading) {
-
         Loading created = loadingRepository.save(loading);
 
         return created.getId() != null;
@@ -28,5 +33,22 @@ public class LoadingService {
         Loading loading = loadingRepository.findById(id).get();
 
         return loading;
+    }
+
+    public List<Loading> listAllLoadingsByPlannedDate() {
+        return loadingRepository.findAllByOrderByPlannedDateAndTimeOfLoadAsc();
+    }
+
+    public void updateLoading(Loading loading, LocalDateTime startOfLoad, LocalDateTime endOfLoad,
+                              Double weight) {
+        loading.setStartOfLoad(startOfLoad);
+        loading.updateLoadingTime(endOfLoad, startOfLoad);
+        Optional.ofNullable(weight).ifPresent(loading::updateWeight);
+
+        if (loading.getStartOfLoad() != null && loading.getEndOfLoad() != null) {
+            loading.setStatus(Status.LOADED);
+        }
+
+        loadingRepository.save(loading);
     }
 }

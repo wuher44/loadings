@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class CustomerController {
+
+    //Review: brakuje private final
     CustomerService customerService;
 
     public CustomerController(CustomerService customerService) {
@@ -20,18 +22,18 @@ public class CustomerController {
     }
 
     @PostMapping("/addCustomer")
-    String addCustomer(@RequestParam String customer, Model model) {
-        Customer newCustomer = new Customer(customer.toUpperCase());
+        //Review: String customer nie oddaje co to właściwie jest. Jak widzę customer to myślę że typem
+        //powinien być Customer a jest String, lepiej po prostu name albo customerName
+    String addCustomer(@RequestParam String name, Model model) {
+        Customer newCustomer = new Customer(name.toUpperCase());
 
-        boolean result = customerService.created(newCustomer);
-        if (!result) {
-            model.addAttribute("info", "Customer already exist!!!!");
+        try {
+            Long customerId = customerService.created(newCustomer);
+            model.addAttribute("customerId", customerId);
             return "customer/addCustomer";
-        } else {
-            model.addAttribute("info", "Customer created!!!!");
+        } catch (Exception e) {
+            model.addAttribute("info", e.getLocalizedMessage());
             return "customer/addCustomer";
         }
-
-
     }
 }

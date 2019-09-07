@@ -1,11 +1,19 @@
 package pl.margol.loadings.Loading;
 
-import pl.margol.loadings.Utils.Status;
-import javax.persistence.*;
 import java.time.LocalDateTime;
+
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import pl.margol.loadings.Utils.Status;
 
 @Entity
 public class Loading {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -151,8 +159,15 @@ public class Loading {
         return endOfLoad;
     }
 
-    public void setEndOfLoad(LocalDateTime endOfLoad) {
-        this.endOfLoad = endOfLoad;
+    public void updateLoadingTime(LocalDateTime endOfLoad, LocalDateTime startOfLoad) {
+        if (endOfLoad != null && startOfLoad != null && startOfLoad.isBefore(endOfLoad)) {
+            this.endOfLoad = endOfLoad;
+            this.startOfLoad = startOfLoad;
+        }
+
+        if (endOfLoad != null && (startOfLoad == null || startOfLoad.isAfter(endOfLoad))) {
+            throw new IllegalArgumentException("Invalid startOfLoad value. Must not be null nor after endOfLoad");
+        }
     }
 
     public String getCountryOfUnload() {
@@ -221,4 +236,11 @@ public class Loading {
     }
 
 
+    public void updateWeight(Double weight) {
+        if (startOfLoad == null && endOfLoad == null || weight < 0) {
+            throw new IllegalArgumentException("Weight must be > 0 and startOfLoad and EndOfLoad must be set");
+        }
+
+        this.loadedWeight = weight;
+    }
 }

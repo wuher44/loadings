@@ -1,5 +1,11 @@
 package pl.margol.loadings.Loading;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,20 +13,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import pl.margol.loadings.Customer.Customer;
 import pl.margol.loadings.Customer.CustomerService;
 import pl.margol.loadings.TruckSet.TruckSetService;
 import pl.margol.loadings.Utils.Status;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-
 @Controller
 public class LoadingController {
+
+    private static final List<String> ADR_CODES = Arrays.asList("-", "1", "2", "3", "4", "5", "6", "7", "8", "9");
+    private static final List<String> COUNTRIES = Arrays.asList("AT", "B", "BG", "CZ", "D", "DK", "EST", "ESP",
+        "HR", "HU", "IT", "LT", "LV", "NL", "P", "PL", "RO", "SK", "SLO", "SWE");
     private LoadingService loadingService;
     private TruckSetService truckSetService;
     private CustomerService customerService;
@@ -35,155 +39,59 @@ public class LoadingController {
 
     @GetMapping("/addLoading")
     String addLoadingForm(Model model) {
-        List<String> adrCodes = Arrays.asList("-", "1", "2", "3", "4", "5", "6", "7", "8", "9");
+        initLoadingForm(model);
 
-        List<String> countries = Arrays.asList("AT", "B", "BG", "CZ", "D", "DK", "EST", "ESP",
-                "HR", "HU", "IT", "LT", "LV", "NL", "P", "PL", "RO", "SK", "SLO", "SWE");
+        return "/loading/addLoading";
+    }
 
-        List<Customer> customers = customerService.findAll();
-        customers.sort(Comparator.comparing(Customer::getName));
+    private void initLoadingForm(Model model) {
+        List<Customer> customers = customerService.findAllByOrderByNameAsc();
         model.addAttribute("truckSetList", truckSetService.listAll());
         model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
         model.addAttribute("customersList", customers);
-        model.addAttribute("adrCodes", adrCodes);
-        model.addAttribute("countries", countries);
-        return "/loading/addLoading";
+        model.addAttribute("adrCodes", ADR_CODES);
+        model.addAttribute("countries", COUNTRIES);
     }
 
     @PostMapping("/addLoading")
     String createLoading(@RequestParam Long truckSetId, @RequestParam String customerName,
                          @RequestParam String adr,
-                         @RequestParam String price, @RequestParam String currency,
+                         @RequestParam Integer price, @RequestParam String currency,
                          @RequestParam String countryOfLoad,
-                         @RequestParam String loadingPlaceCode, @RequestParam String weight,
+                         @RequestParam String loadingPlaceCode, @RequestParam Double weight,
                          @RequestParam(required = false) @DateTimeFormat(iso =
-                                 DateTimeFormat.ISO.DATE_TIME) LocalDateTime plannedDateTimeLoad,
+                             DateTimeFormat.ISO.DATE_TIME) LocalDateTime plannedDateTimeLoad,
                          @RequestParam String countryOfUnload,
                          @RequestParam String unloadingPlaceCode,
                          @RequestParam(required = false) @DateTimeFormat(iso =
-                                 DateTimeFormat.ISO.DATE_TIME) LocalDateTime plannedDateTimeUnload,
+                             DateTimeFormat.ISO.DATE_TIME) LocalDateTime plannedDateTimeUnload,
                          @RequestParam String notes, Model model) {
-        int priceInt;
-        double weightDouble;
 
-        try {
-            priceInt = Integer.parseInt(price);
-        } catch (Exception e) {
-            List<String> adrCodes = Arrays.asList("-", "1", "2", "3", "4", "5", "6", "7", "8", "9");
+        initLoadingForm(model);
 
-            List<String> countries = Arrays.asList("AT", "B", "BG", "CZ", "D", "DK", "EST", "ESP",
-                    "HR", "HU", "IT", "LT", "LV", "NL", "P", "PL", "RO", "SK", "SLO", "SWE");
-
-            List<Customer> customers = customerService.findAll();
-            customers.sort(Comparator.comparing(Customer::getName));
-            model.addAttribute("truckSetList", truckSetService.listAll());
-            model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8,
-                    0)));
-            model.addAttribute("customersList", customers);
-            model.addAttribute("adrCodes", adrCodes);
-            model.addAttribute("countries", countries);
-            model.addAttribute("info", "Add correct price!!!!");
-            return "/loading/addLoading";
-        }
-
-        try {
-            weightDouble = Double.parseDouble(weight);
-        } catch (Exception e) {
-            List<String> adrCodes = Arrays.asList("-", "1", "2", "3", "4", "5", "6", "7", "8", "9");
-
-            List<String> countries = Arrays.asList("AT", "B", "BG", "CZ", "D", "DK", "EST", "ESP",
-                    "HR", "HU", "IT", "LT", "LV", "NL", "P", "PL", "RO", "SK", "SLO", "SWE");
-
-            List<Customer> customers = customerService.findAll();
-            customers.sort(Comparator.comparing(Customer::getName));
-            model.addAttribute("truckSetList", truckSetService.listAll());
-            model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8,
-                    0)));
-            model.addAttribute("customersList", customers);
-            model.addAttribute("adrCodes", adrCodes);
-            model.addAttribute("countries", countries);
-            model.addAttribute("info", "Add correct weight!!!!");
-            return "/loading/addLoading";
-        }
-
-
-        if (priceInt <= 0) {
-            List<String> adrCodes = Arrays.asList("-", "1", "2", "3", "4", "5", "6", "7", "8", "9");
-
-            List<String> countries = Arrays.asList("AT", "B", "BG", "CZ", "D", "DK", "EST", "ESP",
-                    "HR", "HU", "IT", "LT", "LV", "NL", "P", "PL", "RO", "SK", "SLO", "SWE");
-
-            List<Customer> customers = customerService.findAll();
-            customers.sort(Comparator.comparing(Customer::getName));
-            model.addAttribute("truckSetList", truckSetService.listAll());
-            model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8,
-                    0)));
-            model.addAttribute("customersList", customers);
-            model.addAttribute("adrCodes", adrCodes);
-            model.addAttribute("countries", countries);
+        //Refactor tak żeby te ify rzucały wyjątki i były w serwisie razem z liniami 91-95 ( tak jak w Driver'ze
+        if (price <= 0) {
             model.addAttribute("info", "Add correct price!!!!");
             return "/loading/addLoading";
         }
         if (loadingPlaceCode.isEmpty() || unloadingPlaceCode.isEmpty()) {
-            List<String> adrCodes = Arrays.asList("-", "1", "2", "3", "4", "5", "6", "7", "8", "9");
-
-            List<String> countries = Arrays.asList("AT", "B", "BG", "CZ", "D", "DK", "EST", "ESP",
-                    "HR", "HU", "IT", "LT", "LV", "NL", "P", "PL", "RO", "SK", "SLO", "SWE");
-
-            List<Customer> customers = customerService.findAll();
-            customers.sort(Comparator.comparing(Customer::getName));
-            model.addAttribute("truckSetList", truckSetService.listAll());
-            model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8,
-                    0)));
-            model.addAttribute("customersList", customers);
-            model.addAttribute("adrCodes", adrCodes);
-            model.addAttribute("countries", countries);
             model.addAttribute("info", "Add postcode!!!!");
             return "/loading/addLoading";
         }
-        if (weightDouble <= 0) {
-            List<String> adrCodes = Arrays.asList("-", "1", "2", "3", "4", "5", "6", "7", "8", "9");
-
-            List<String> countries = Arrays.asList("AT", "B", "BG", "CZ", "D", "DK", "EST", "ESP",
-                    "HR", "HU", "IT", "LT", "LV", "NL", "P", "PL", "RO", "SK", "SLO", "SWE");
-
-            List<Customer> customers = customerService.findAll();
-            customers.sort(Comparator.comparing(Customer::getName));
-            model.addAttribute("truckSetList", truckSetService.listAll());
-            model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8,
-                    0)));
-            model.addAttribute("customersList", customers);
-            model.addAttribute("adrCodes", adrCodes);
-            model.addAttribute("countries", countries);
+        if (weight <= 0) {
             model.addAttribute("info", "Add correct weight!!!!");
             return "/loading/addLoading";
         }
-
         if (plannedDateTimeLoad.isAfter(plannedDateTimeUnload)) {
-            List<String> adrCodes = Arrays.asList("-", "1", "2", "3", "4", "5", "6", "7", "8", "9");
-
-            List<String> countries = Arrays.asList("AT", "B", "BG", "CZ", "D", "DK", "EST", "ESP",
-                    "HR", "HU", "IT", "LT", "LV", "NL", "P", "PL", "RO", "SK", "SLO", "SWE");
-
-            List<Customer> customers = customerService.findAll();
-            customers.sort(Comparator.comparing(Customer::getName));
-            model.addAttribute("truckSetList", truckSetService.listAll());
-            model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8,
-                    0)));
-            model.addAttribute("customersList", customers);
-            model.addAttribute("adrCodes", adrCodes);
-            model.addAttribute("countries", countries);
             model.addAttribute("info", "Date of load cannot be after date of unload!!!!");
             return "/loading/addLoading";
         }
 
+        Loading newLoading = new Loading(truckSetId, customerName, adr, price, currency, countryOfLoad,
+            loadingPlaceCode, weight, plannedDateTimeLoad, countryOfUnload, unloadingPlaceCode,
+            plannedDateTimeUnload, notes);
 
-        Loading newLoading = new Loading(truckSetId, customerName, adr, priceInt, currency,
-                countryOfLoad, loadingPlaceCode,
-                weightDouble, plannedDateTimeLoad, countryOfUnload, unloadingPlaceCode,
-                plannedDateTimeUnload, notes);
-
-        boolean result = loadingService.createLoading(newLoading);
+        loadingService.createLoading(newLoading);
 
         return "redirect:/listOfLoadings";
 
@@ -191,11 +99,9 @@ public class LoadingController {
 
     @GetMapping("/listOfLoadings")
     String listLoadings(Model model) {
-        List<Loading> list = loadingService.listAllLoadings();
-        list.sort((o1, o2) -> o2.getPlannedDateAndTimeOfLoad().compareTo(o1.getPlannedDateAndTimeOfLoad()));
+        List<Loading> list = loadingService.listAllLoadingsByPlannedDate();
 
         model.addAttribute("listOfAllLoadings", list);
-
 
         return "loading/listOfLoadings";
     }
@@ -208,48 +114,21 @@ public class LoadingController {
     }
 
     @PostMapping("/loading/setLoad/{id}")
-    String setLoad(@PathVariable Long id, @RequestParam(required = false) @DateTimeFormat(iso =
-            DateTimeFormat.ISO.DATE_TIME) LocalDateTime startOfLoad, @RequestParam(required =
-            false) @DateTimeFormat(iso =
-            DateTimeFormat.ISO.DATE_TIME) LocalDateTime endOfLoad,
-                   @RequestParam(required = false) String weight, Model model) {
+    String setLoad(@PathVariable Long id,
+                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startOfLoad,
+                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endOfLoad,
+                   @RequestParam(required = false) Double weight, Model model) {
+        Loading loading = loadingService.findLoadingById(id);
 
-        Loading loadingToSetLoad = loadingService.findLoadingById(id);
-
-        loadingToSetLoad.setStartOfLoad(startOfLoad);
-
-        if (endOfLoad != null) {
-            if (loadingToSetLoad.getStartOfLoad() != null) {
-                if (endOfLoad.isBefore(loadingToSetLoad.getStartOfLoad())) {
-                    model.addAttribute("loading", loadingToSetLoad);
-                    model.addAttribute("info", "End cannot be before start!!!!");
-                    return "/loading/setLoad";
-                }
-                loadingToSetLoad.setEndOfLoad(endOfLoad);
-            } else {
-                model.addAttribute("loading", loadingToSetLoad);
-                model.addAttribute("info", "Add start first!!!!");
-                return "/loading/setLoad";
-            }
+        try {
+            loadingService.updateLoading(loading, startOfLoad, endOfLoad, weight);
+        } catch (Exception e) {
+            model.addAttribute("loading", loading);
+            model.addAttribute("info", e.getLocalizedMessage());
+            return "/loading/setLoad";
         }
-        if (weight != null && !weight.isEmpty()) {
-            if (loadingToSetLoad.getEndOfLoad() != null && loadingToSetLoad.getStartOfLoad() != null) {
-                loadingToSetLoad.setLoadedWeight(Double.parseDouble(weight));
-            } else {
-                model.addAttribute("loading", loadingToSetLoad);
-                model.addAttribute("info", "Add start and end first!!!!");
-                return "/loading/setLoad";
-            }
-        }
-
-        if (loadingToSetLoad.getStartOfLoad() != null && loadingToSetLoad.getEndOfLoad() != null) {
-            loadingToSetLoad.setStatus(Status.LOADED);
-        }
-
-        loadingService.createLoading(loadingToSetLoad);
 
         return "redirect:/listOfLoadings";
-
     }
 
     @GetMapping("/loading/setUnload/{id}")
@@ -261,10 +140,10 @@ public class LoadingController {
 
     @PostMapping("/loading/setUnload/{id}")
     String setUnload(@PathVariable Long id, @RequestParam(required = false) @DateTimeFormat(iso =
-            DateTimeFormat.ISO.DATE_TIME) LocalDateTime startOfUnload, @RequestParam(required =
-            false) @DateTimeFormat(iso =
-            DateTimeFormat.ISO.DATE_TIME) LocalDateTime endOfUnload, Model model) {
-
+        DateTimeFormat.ISO.DATE_TIME) LocalDateTime startOfUnload, @RequestParam(required =
+        false) @DateTimeFormat(iso =
+        DateTimeFormat.ISO.DATE_TIME) LocalDateTime endOfUnload, Model model) {
+        //Refaktor analogicznie do setLoad
         Loading loadingToSetUnload = loadingService.findLoadingById(id);
 
         if (startOfUnload.isBefore(loadingToSetUnload.getEndOfLoad())) {
@@ -289,7 +168,6 @@ public class LoadingController {
                 return "/loading/setUnload";
             }
         }
-
 
         if (loadingToSetUnload.getStartOfUnload() != null && loadingToSetUnload.getEndOfUnload() != null) {
             loadingToSetUnload.setStatus(Status.COMPLETED);
