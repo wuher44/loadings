@@ -136,6 +136,7 @@
                     <input type="radio" name="status" value="Fired" ${driver.status==("FIRED")  ? 'checked' : ''}>
                 </c:if>
                 <br>
+                <p style="color: red">${info}</p>
                 <input class="button" type="submit" value="Edit">
             </fieldset>
         </form>

@@ -39,19 +39,12 @@ public class LoadingController {
 
     @GetMapping("/addLoading")
     String addLoadingForm(Model model) {
+        System.out.println("jestem w /addLoading GET");
         initLoadingForm(model);
 
         return "/loading/addLoading";
     }
 
-    private void initLoadingForm(Model model) {
-        List<Customer> customers = customerService.findAllByOrderByNameAsc();
-        model.addAttribute("truckSetList", truckSetService.listAll());
-        model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
-        model.addAttribute("customersList", customers);
-        model.addAttribute("adrCodes", ADR_CODES);
-        model.addAttribute("countries", COUNTRIES);
-    }
 
     @PostMapping("/addLoading")
     String createLoading(@RequestParam Long truckSetId, @RequestParam String customerName,
@@ -67,10 +60,12 @@ public class LoadingController {
                              DateTimeFormat.ISO.DATE_TIME) LocalDateTime plannedDateTimeUnload,
                          @RequestParam String notes, Model model) {
 
+        System.out.println("jestem w /addLoading POST");
         initLoadingForm(model);
 
+
         //Refactor tak żeby te ify rzucały wyjątki i były w serwisie razem z liniami 91-95 ( tak jak w Driver'ze
-        if (price <= 0) {
+       /* if (price <= 0) {
             model.addAttribute("info", "Add correct price!!!!");
             return "/loading/addLoading";
         }
@@ -91,11 +86,20 @@ public class LoadingController {
             loadingPlaceCode, weight, plannedDateTimeLoad, countryOfUnload, unloadingPlaceCode,
             plannedDateTimeUnload, notes);
 
-        loadingService.createLoading(newLoading);
+        loadingService.createLoading(newLoading);*/
 
         return "redirect:/listOfLoadings";
 
     }
+    private void initLoadingForm(Model model) {
+        List<Customer> customers = customerService.findAllByOrderByNameAsc();
+        model.addAttribute("truckSetList", truckSetService.listAll());
+        model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
+        model.addAttribute("customersList", customers);
+        model.addAttribute("adrCodes", ADR_CODES);
+        model.addAttribute("countries", COUNTRIES);
+    }
+
 
     @GetMapping("/listOfLoadings")
     String listLoadings(Model model) {

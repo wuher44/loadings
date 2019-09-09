@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CustomerController {
 
     //Review: brakuje private final
-    CustomerService customerService;
+    private final CustomerService customerService;
 
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
@@ -22,14 +22,13 @@ public class CustomerController {
     }
 
     @PostMapping("/addCustomer")
-        //Review: String customer nie oddaje co to właściwie jest. Jak widzę customer to myślę że typem
-        //powinien być Customer a jest String, lepiej po prostu name albo customerName
     String addCustomer(@RequestParam String name, Model model) {
         Customer newCustomer = new Customer(name.toUpperCase());
 
         try {
             Long customerId = customerService.created(newCustomer);
             model.addAttribute("customerId", customerId);
+            model.addAttribute("info", "Customer created!!!!");
             return "customer/addCustomer";
         } catch (Exception e) {
             model.addAttribute("info", e.getLocalizedMessage());

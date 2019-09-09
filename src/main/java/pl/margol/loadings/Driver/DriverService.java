@@ -21,13 +21,13 @@ public class DriverService {
     }
 
     public List<Driver> listAllDriversSortedByLastName() {
-        return driverRepository.findAllByOrderByLastnNameAsc();
+        return driverRepository.findAllByOrderByLastNameAsc();
     }
 
     public Long create(String firstName, String lastName) {
         Driver driver = new Driver(firstName, lastName);
-        if (doesDriverExist(firstName, lastName)) {
-            throw new IllegalArgumentException("firstName and lastName must be unique");
+        if (doesDriverExist(toValidName(firstName), toValidName(lastName))) {
+            throw new IllegalArgumentException("First name and last name must be unique");
         }
 
         return driverRepository.save(driver).getId();
@@ -58,18 +58,19 @@ public class DriverService {
 
     private Driver getDriver(Long id) {
         return driverRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Driver not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Driver not found"));
     }
 
     List<Driver> searchDriverByPhrase(String phrase) {
         return driverRepository.searchDriverByPhrase(phrase);
     }
 
-    private boolean doesDriverExist(String firstname, String lastName) {
-        return driverRepository.countByFirstNameAndLastName(firstname, lastName) >= 0;
+    private boolean doesDriverExist(String firstName, String lastName) {
+        return driverRepository.countByFirstNameAndLastName(firstName, lastName) > 0;
     }
 
     List<Driver> findDrivers(String phrase, String show) {
+        phrase = toValidName(phrase);
         if (StringUtils.isEmpty(phrase) && show.equals("all")) {
             return driverRepository.findAll();
         } else if (!StringUtils.isEmpty(phrase) && show.equals("all")) {
@@ -84,4 +85,12 @@ public class DriverService {
     private Status toStatus(String show) {
         return Status.valueOf(show.toUpperCase());
     }
+
+    private String toValidName(String name) {
+        return name.trim()
+                .replaceAll("\\s*", "")
+                .toUpperCase();
+    }
+
+
 }

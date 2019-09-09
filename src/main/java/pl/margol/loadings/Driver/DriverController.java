@@ -34,7 +34,7 @@ public class DriverController {
             model.addAttribute("driverId", driverId);
             List<Driver> driversList = driverService.listAllDrivers();
             model.addAttribute("driversList", driversList);
-
+            model.addAttribute("info", "Driver created!!!!");
             return "driver/addDriver";
         } catch (Exception e) {
             model.addAttribute("info", e.getLocalizedMessage());
@@ -64,6 +64,7 @@ public class DriverController {
 
         model.addAttribute("driversList", driverService.findDrivers(phrase, show));
         model.addAttribute("show", toShowNumber(show));
+        model.addAttribute("lastPhrase", phrase);
         return "driver/listOfDrivers";
     }
 
@@ -94,13 +95,18 @@ public class DriverController {
     String editDriver(@PathVariable long id, @RequestParam String firstName,
                       @RequestParam String lastName,
                       @RequestParam String status, Model model) {
+        try {
+            boolean result = driverService.edit(id, firstName, lastName,
+                    Status.valueOf(status.toUpperCase()));
+            return "redirect:/listOfDrivers";
+        } catch (Exception e) {
+            model.addAttribute("driver", driverService.findDriver(id));
+            model.addAttribute("info", e.getLocalizedMessage());
+            return "/driver/edit";
 
-        boolean result = driverService.edit(id, firstName, lastName, Status.valueOf(status.toUpperCase()));
-
-        return "redirect:/listOfDrivers";
+        }
     }
-
-    @PostMapping("/searchDriver")
+    /*@PostMapping("/searchDriver")
     String searchDriver(@RequestParam String phrase, Model model) {
         if (StringUtils.isEmpty(phrase)) {
             return "redirect:/listOfDrivers";
@@ -110,5 +116,6 @@ public class DriverController {
 
             return "driver/listOfDrivers";
         }
-    }
+    }*/
+
 }

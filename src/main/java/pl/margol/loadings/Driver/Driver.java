@@ -28,7 +28,7 @@ public class Driver {
     @Enumerated(EnumType.STRING)
     private Status status;
     @OneToMany(mappedBy = "driverId")
-    List<TruckSet> truckSetList;
+    private List<TruckSet> truckSetList;
 
 
     public Driver() {
@@ -36,10 +36,10 @@ public class Driver {
 
     public Driver(String firstName, String lastName) {
         if (!StringUtils.isAlpha(firstName)) {
-            throw new IllegalArgumentException("firstName must contain only letters");
+            throw new IllegalArgumentException("First name must contain only letters");
         }
         if (!StringUtils.isAlpha(lastName)) {
-            throw new IllegalArgumentException("lastName must contain only letters");
+            throw new IllegalArgumentException("Last name must contain only letters");
         }
 
         this.firstName = toValidName(firstName);
@@ -48,10 +48,10 @@ public class Driver {
         this.truckSetList = new ArrayList<>();
     }
 
-    private String toValidName(String firstName) {
-        return firstName.trim()
-            .replaceAll("\\s*", "")
-            .toUpperCase();
+    public String toValidName(String name) {
+        return name.trim()
+                .replaceAll("\\s*", "")
+                .toUpperCase();
     }
 
     public Long getId() {
@@ -67,6 +67,10 @@ public class Driver {
     }
 
     public void setFirstName(String firstName) {
+        if (!StringUtils.isAlpha(firstName)) {
+            throw new IllegalArgumentException("First name must contain only letters");
+        }
+
         this.firstName = toValidName(firstName);
     }
 
@@ -75,6 +79,10 @@ public class Driver {
     }
 
     public void setLastName(String lastName) {
+        if (!StringUtils.isAlpha(lastName)) {
+            throw new IllegalArgumentException("Last name must contain only letters");
+        }
+
         this.lastName = toValidName(lastName);
     }
 
@@ -116,12 +124,12 @@ public class Driver {
     }
 
     /*public String getCurrentTruckSet(){
-        return truckSetList.stream()
-                .sorted((s1,s2)-> s2.getId().compareTo(s1.getId()))
-                .findFirst()
-                .map(TruckSet::getName)
-                .orElse("");
-    }*/
+            return truckSetList.stream()
+                    .sorted((s1,s2)-> s2.getId().compareTo(s1.getId()))
+                    .findFirst()
+                    .map(TruckSet::getName)
+                    .orElse("");
+        }*/
     public String getCurrentTruckSet() {
         return truckSetList.stream()
             .filter(ts -> ts.getStatus().equals(Status.ACTIVE))
