@@ -159,7 +159,8 @@
             <label>Unloading place code:</label>
             <input type="text" name="unloadingPlaceCode"><br>
             <p>${info}</p><label>Notes:</label>
-            <input type="text" name="notes"> <input type="submit" value="Add loading" style="border-radius: 5px; background-color: red; border-color: darkred;
+            <input type="text" name="notes">
+            <input type="submit" value="Add loading" style="border-radius: 5px; background-color: red; border-color: darkred;
         color: white;">
         </form>
     </div>

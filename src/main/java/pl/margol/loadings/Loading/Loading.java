@@ -159,14 +159,25 @@ public class Loading {
         return endOfLoad;
     }
 
-    public void updateLoadingTime(LocalDateTime endOfLoad, LocalDateTime startOfLoad) {
-        if (endOfLoad != null && startOfLoad != null && startOfLoad.isBefore(endOfLoad)) {
-            this.endOfLoad = endOfLoad;
+    public void updateLoadingDateTime(LocalDateTime startOfLoad, LocalDateTime endOfLoad) {
+        if (startOfLoad != null && endOfLoad != null && startOfLoad.isBefore(endOfLoad)) {
             this.startOfLoad = startOfLoad;
+            this.endOfLoad = endOfLoad;
         }
-
         if (endOfLoad != null && (startOfLoad == null || startOfLoad.isAfter(endOfLoad))) {
-            throw new IllegalArgumentException("Invalid startOfLoad value. Must not be null nor after endOfLoad");
+            throw new IllegalArgumentException("Invalid values. startOfLoad must not be null nor " +
+                    "after endOfLoad");
+        }
+    }
+
+    public void updateUnloadingDateTime(LocalDateTime startOfUnload, LocalDateTime endOfUnload) {
+        if (startOfUnload != null && endOfUnload != null && startOfUnload.isBefore(endOfUnload)) {
+            this.startOfUnload = startOfUnload;
+            this.endOfUnload = endOfUnload;
+        }
+        if (endOfUnload != null && (startOfUnload == null || startOfUnload.isAfter(endOfUnload))) {
+            throw new IllegalArgumentException("Invalid values. startOfUnload must not be null " +
+                    "nor after endOfUnload");
         }
     }
 
@@ -237,8 +248,9 @@ public class Loading {
 
 
     public void updateWeight(Double weight) {
-        if (startOfLoad == null && endOfLoad == null || weight < 0) {
-            throw new IllegalArgumentException("Weight must be > 0 and startOfLoad and EndOfLoad must be set");
+        if (startOfLoad == null && endOfLoad == null || weight <= 0) {
+            throw new IllegalArgumentException("Weight must be > 0 and startOfLoad and endOfLoad " +
+                    "must be set");
         }
 
         this.loadedWeight = weight;

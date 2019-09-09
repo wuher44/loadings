@@ -22,9 +22,11 @@ import pl.margol.loadings.Utils.Status;
 @Controller
 public class LoadingController {
 
-    private static final List<String> ADR_CODES = Arrays.asList("-", "1", "2", "3", "4", "5", "6", "7", "8", "9");
-    private static final List<String> COUNTRIES = Arrays.asList("AT", "B", "BG", "CZ", "D", "DK", "EST", "ESP",
-        "HR", "HU", "IT", "LT", "LV", "NL", "P", "PL", "RO", "SK", "SLO", "SWE");
+    private static final List<String> ADR_CODES = Arrays.asList("-", "1", "2", "3", "4", "5", "6"
+            , "7", "8", "9");
+    private static final List<String> COUNTRIES = Arrays.asList("AT", "B", "BG", "CZ", "D", "DK",
+            "EST", "ESP",
+            "HR", "HU", "IT", "LT", "LV", "NL", "P", "PL", "RO", "SK", "SLO", "SWE");
     private LoadingService loadingService;
     private TruckSetService truckSetService;
     private CustomerService customerService;
@@ -53,18 +55,19 @@ public class LoadingController {
                          @RequestParam String countryOfLoad,
                          @RequestParam String loadingPlaceCode, @RequestParam Double weight,
                          @RequestParam(required = false) @DateTimeFormat(iso =
-                             DateTimeFormat.ISO.DATE_TIME) LocalDateTime plannedDateTimeLoad,
+                                 DateTimeFormat.ISO.DATE_TIME) LocalDateTime plannedDateTimeLoad,
                          @RequestParam String countryOfUnload,
                          @RequestParam String unloadingPlaceCode,
                          @RequestParam(required = false) @DateTimeFormat(iso =
-                             DateTimeFormat.ISO.DATE_TIME) LocalDateTime plannedDateTimeUnload,
+                                 DateTimeFormat.ISO.DATE_TIME) LocalDateTime plannedDateTimeUnload,
                          @RequestParam String notes, Model model) {
 
         System.out.println("jestem w /addLoading POST");
         initLoadingForm(model);
 
 
-        //Refactor tak żeby te ify rzucały wyjątki i były w serwisie razem z liniami 91-95 ( tak jak w Driver'ze
+        //Refactor tak żeby te ify rzucały wyjątki i były w serwisie razem z liniami 91-95 ( tak
+        // jak w Driver'ze
        /* if (price <= 0) {
             model.addAttribute("info", "Add correct price!!!!");
             return "/loading/addLoading";
@@ -82,7 +85,8 @@ public class LoadingController {
             return "/loading/addLoading";
         }
 
-        Loading newLoading = new Loading(truckSetId, customerName, adr, price, currency, countryOfLoad,
+        Loading newLoading = new Loading(truckSetId, customerName, adr, price, currency,
+        countryOfLoad,
             loadingPlaceCode, weight, plannedDateTimeLoad, countryOfUnload, unloadingPlaceCode,
             plannedDateTimeUnload, notes);
 
@@ -91,6 +95,7 @@ public class LoadingController {
         return "redirect:/listOfLoadings";
 
     }
+
     private void initLoadingForm(Model model) {
         List<Customer> customers = customerService.findAllByOrderByNameAsc();
         model.addAttribute("truckSetList", truckSetService.listAll());
@@ -119,15 +124,17 @@ public class LoadingController {
 
     @PostMapping("/loading/setLoad/{id}")
     String setLoad(@PathVariable Long id,
-                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startOfLoad,
-                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endOfLoad,
+                   @RequestParam(required = false) @DateTimeFormat(iso =
+                           DateTimeFormat.ISO.DATE_TIME) LocalDateTime startOfLoad,
+                   @RequestParam(required = false) @DateTimeFormat(iso =
+                           DateTimeFormat.ISO.DATE_TIME) LocalDateTime endOfLoad,
                    @RequestParam(required = false) Double weight, Model model) {
-        Loading loading = loadingService.findLoadingById(id);
+        Loading loadingToSetLoad = loadingService.findLoadingById(id);
 
         try {
-            loadingService.updateLoading(loading, startOfLoad, endOfLoad, weight);
+            loadingService.updateLoading(loadingToSetLoad, startOfLoad, endOfLoad, weight);
         } catch (Exception e) {
-            model.addAttribute("loading", loading);
+            model.addAttribute("loading", loadingToSetLoad);
             model.addAttribute("info", e.getLocalizedMessage());
             return "/loading/setLoad";
         }
@@ -144,13 +151,26 @@ public class LoadingController {
 
     @PostMapping("/loading/setUnload/{id}")
     String setUnload(@PathVariable Long id, @RequestParam(required = false) @DateTimeFormat(iso =
-        DateTimeFormat.ISO.DATE_TIME) LocalDateTime startOfUnload, @RequestParam(required =
-        false) @DateTimeFormat(iso =
-        DateTimeFormat.ISO.DATE_TIME) LocalDateTime endOfUnload, Model model) {
-        //Refaktor analogicznie do setLoad
+            DateTimeFormat.ISO.DATE_TIME) LocalDateTime startOfUnload, @RequestParam(required =
+            false) @DateTimeFormat(iso =
+            DateTimeFormat.ISO.DATE_TIME) LocalDateTime endOfUnload, Model model) {
+
         Loading loadingToSetUnload = loadingService.findLoadingById(id);
 
-        if (startOfUnload.isBefore(loadingToSetUnload.getEndOfLoad())) {
+        try {
+            loadingService.updateUnloading(loadingToSetUnload, startOfUnload, endOfUnload);
+        } catch (Exception e) {
+            model.addAttribute("loading", loadingToSetUnload);
+            model.addAttribute("info", e.getLocalizedMessage());
+            return "/loading/setUnload";
+        }
+
+        return "redirect:/listOfLoadings";
+
+        //Refaktor analogicznie do setLoad
+
+
+        /*if (startOfUnload.isBefore(loadingToSetUnload.getEndOfLoad())) {
             model.addAttribute("loading", loadingToSetUnload);
             model.addAttribute("info", "Unload cannot be before load!!!!");
             return "/loading/setUnload";
@@ -173,13 +193,14 @@ public class LoadingController {
             }
         }
 
-        if (loadingToSetUnload.getStartOfUnload() != null && loadingToSetUnload.getEndOfUnload() != null) {
+        if (loadingToSetUnload.getStartOfUnload() != null && loadingToSetUnload.getEndOfUnload()
+        != null) {
             loadingToSetUnload.setStatus(Status.COMPLETED);
         }
 
         loadingService.createLoading(loadingToSetUnload);
 
-        return "redirect:/listOfLoadings";
+        return "redirect:/listOfLoadings";*/
 
     }
 

@@ -42,11 +42,22 @@ public class LoadingService {
     public void updateLoading(Loading loading, LocalDateTime startOfLoad, LocalDateTime endOfLoad,
                               Double weight) {
         loading.setStartOfLoad(startOfLoad);
-        loading.updateLoadingTime(endOfLoad, startOfLoad);
+        loading.updateLoadingDateTime(startOfLoad, endOfLoad);
         Optional.ofNullable(weight).ifPresent(loading::updateWeight);
 
         if (loading.getStartOfLoad() != null && loading.getEndOfLoad() != null) {
             loading.setStatus(Status.LOADED);
+        }
+
+        loadingRepository.save(loading);
+    }
+
+    public void updateUnloading(Loading loading, LocalDateTime startOfUnload, LocalDateTime endOfUnload) {
+        loading.setStartOfUnload(startOfUnload);
+        loading.updateUnloadingDateTime(startOfUnload, endOfUnload);
+
+        if (loading.getStartOfUnload() != null && loading.getEndOfUnload() != null) {
+            loading.setStatus(Status.COMPLETED);
         }
 
         loadingRepository.save(loading);
