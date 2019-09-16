@@ -2,7 +2,6 @@ package pl.margol.loadings.Driver;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -106,16 +105,4 @@ public class DriverController {
 
         }
     }
-    /*@PostMapping("/searchDriver")
-    String searchDriver(@RequestParam String phrase, Model model) {
-        if (StringUtils.isEmpty(phrase)) {
-            return "redirect:/listOfDrivers";
-        } else {
-            List<Driver> driversList = driverService.searchDriverByPhrase(phrase.toUpperCase());
-            model.addAttribute("driversList", driversList);
-
-            return "driver/listOfDrivers";
-        }
-    }*/
-
 }

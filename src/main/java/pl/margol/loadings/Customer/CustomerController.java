@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class CustomerController {
 
-    //Review: brakuje private final
+
     private final CustomerService customerService;
 
     public CustomerController(CustomerService customerService) {

@@ -65,17 +65,19 @@ public class LoadingController {
         System.out.println("jestem w /addLoading POST");
         initLoadingForm(model);
         try {
-            Long loadingId = loadingService.createLoading(truckSetId, customerName, adr, price, currency,
-                    countryOfLoad, loadingPlaceCode, weight, plannedDateTimeLoad, countryOfUnload, unloadingPlaceCode,
+            Long loadingId = loadingService.createLoading(truckSetId, customerName, adr, price,
+                    currency,
+                    countryOfLoad, loadingPlaceCode, weight, plannedDateTimeLoad, countryOfUnload
+                    , unloadingPlaceCode,
                     plannedDateTimeUnload, notes);
             model.addAttribute("loadingId", loadingId);
-            return "redirect:/listOfLoadings";
 
-        }catch (Exception e){
+
+        } catch (Exception e) {
             model.addAttribute("info", e.getLocalizedMessage());
             return "/loading/addLoading";
         }
-
+        return "redirect:/listOfLoadings";
 
         //Refactor tak żeby te ify rzucały wyjątki i były w serwisie razem z liniami 91-95 ( tak
         // jak w Driver'ze
@@ -102,7 +104,6 @@ public class LoadingController {
             plannedDateTimeUnload, notes);
 
         loadingService.createLoading(newLoading);*/
-
 
 
     }
@@ -177,41 +178,6 @@ public class LoadingController {
         }
 
         return "redirect:/listOfLoadings";
-
-        //Refaktor analogicznie do setLoad
-
-
-        /*if (startOfUnload.isBefore(loadingToSetUnload.getEndOfLoad())) {
-            model.addAttribute("loading", loadingToSetUnload);
-            model.addAttribute("info", "Unload cannot be before load!!!!");
-            return "/loading/setUnload";
-        }
-
-        loadingToSetUnload.setStartOfUnload(startOfUnload);
-
-        if (endOfUnload != null) {
-            if (loadingToSetUnload.getStartOfUnload() != null) {
-                if (endOfUnload.isBefore(loadingToSetUnload.getStartOfUnload())) {
-                    model.addAttribute("loading", loadingToSetUnload);
-                    model.addAttribute("info", "End cannot be before start!!!!");
-                    return "/loading/setUnload";
-                }
-                loadingToSetUnload.setEndOfUnload(endOfUnload);
-            } else {
-                model.addAttribute("loading", loadingToSetUnload);
-                model.addAttribute("info", "Add start first!!!!");
-                return "/loading/setUnload";
-            }
-        }
-
-        if (loadingToSetUnload.getStartOfUnload() != null && loadingToSetUnload.getEndOfUnload()
-        != null) {
-            loadingToSetUnload.setStatus(Status.COMPLETED);
-        }
-
-        loadingService.createLoading(loadingToSetUnload);
-
-        return "redirect:/listOfLoadings";*/
 
     }
 

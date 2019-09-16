@@ -112,10 +112,10 @@ public class Driver {
         }
         Driver driver = (Driver) o;
         return Objects.equals(id, driver.id) &&
-            Objects.equals(firstName, driver.firstName) &&
-            Objects.equals(lastName, driver.lastName) &&
-            status == driver.status &&
-            Objects.equals(truckSetList, driver.truckSetList);
+                Objects.equals(firstName, driver.firstName) &&
+                Objects.equals(lastName, driver.lastName) &&
+                status == driver.status &&
+                Objects.equals(truckSetList, driver.truckSetList);
     }
 
     @Override
@@ -132,10 +132,10 @@ public class Driver {
         }*/
     public String getCurrentTruckSet() {
         return truckSetList.stream()
-            .filter(ts -> ts.getStatus().equals(Status.ACTIVE))
-            .findFirst()
-            .map(TruckSet::getName)
-            .orElse("");
+                .filter(ts -> ts.getStatus().equals(Status.ACTIVE))
+                .findFirst()
+                .map(TruckSet::getName)
+                .orElse("");
 
     }
 }

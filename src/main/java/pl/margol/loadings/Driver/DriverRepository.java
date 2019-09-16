@@ -22,10 +22,6 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
 
     long countByFirstNameAndLastName(String firstName, String lastName);
 
-    long countDriverByFirstNameAndAndLastName(String firstName, String lastName);
-
- //   List<Driver> findAllByFirstNameAndLastName(String firstName, String lastName);
-
     List<Driver> findAllByOrderByLastNameAsc();
 
     @Query("select d from  Driver d where (d.firstName like %:phrase% or d.lastName like " +
