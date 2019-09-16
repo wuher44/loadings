@@ -64,6 +64,17 @@ public class LoadingController {
 
         System.out.println("jestem w /addLoading POST");
         initLoadingForm(model);
+        try {
+            Long loadingId = loadingService.createLoading(truckSetId, customerName, adr, price, currency,
+                    countryOfLoad, loadingPlaceCode, weight, plannedDateTimeLoad, countryOfUnload, unloadingPlaceCode,
+                    plannedDateTimeUnload, notes);
+            model.addAttribute("loadingId", loadingId);
+            return "redirect:/listOfLoadings";
+
+        }catch (Exception e){
+            model.addAttribute("info", e.getLocalizedMessage());
+            return "/loading/addLoading";
+        }
 
 
         //Refactor tak żeby te ify rzucały wyjątki i były w serwisie razem z liniami 91-95 ( tak
@@ -92,7 +103,7 @@ public class LoadingController {
 
         loadingService.createLoading(newLoading);*/
 
-        return "redirect:/listOfLoadings";
+
 
     }
 

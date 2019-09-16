@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.apache.commons.lang3.StringUtils;
 import pl.margol.loadings.Utils.Status;
 
 @Entity
@@ -46,6 +47,18 @@ public class Loading {
                    LocalDateTime plannedDateAndTimeOfLoad, String countryOfUnload,
                    String unloadingPlaceCode, LocalDateTime plannedDateAndTimeOfUnload,
                    String notes) {
+        if (price <= 0) {
+            throw new IllegalArgumentException("Add correct price");
+        }
+        if (!StringUtils.isEmpty(loadingPlaceCode) || !StringUtils.isEmpty(unloadingPlaceCode)) {
+            throw new IllegalArgumentException("Add postcode!!!!");
+        }
+        if (plannedWeight <= 0) {
+            throw new IllegalArgumentException("Add correct weight!!!!");
+        }
+        if (plannedDateAndTimeOfLoad.isAfter(plannedDateAndTimeOfUnload)) {
+            throw new IllegalArgumentException("Date of load cannot be after date of unload!!!!");
+        }
         this.truckSetId = truckSetId;
         this.customer = customer;
         this.adr = adr;

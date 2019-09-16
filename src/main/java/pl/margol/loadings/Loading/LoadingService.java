@@ -17,10 +17,17 @@ public class LoadingService {
         this.loadingRepository = loadingRepository;
     }
 
-    boolean createLoading(Loading loading) {
-        Loading created = loadingRepository.save(loading);
 
-        return created.getId() != null;
+    public Long createLoading(Long truckSetId, String customerName, String adr, int price,
+                              String currency, String countryOfLoad, String loadingPlaceCode, double weight,
+                              LocalDateTime plannedDateTimeLoad, String countryOfUnload,
+                              String unloadingPlaceCode, LocalDateTime plannedDateTimeUnload, String notes) {
+
+        Loading newLoading = new Loading(truckSetId, customerName, adr, price, currency, countryOfLoad,
+                loadingPlaceCode, weight, plannedDateTimeLoad, countryOfUnload, unloadingPlaceCode,
+                plannedDateTimeUnload, notes);
+
+        return loadingRepository.save(newLoading).getId();
     }
 
     public List<Loading> listAllLoadings() {
@@ -52,7 +59,8 @@ public class LoadingService {
         loadingRepository.save(loading);
     }
 
-    public void updateUnloading(Loading loading, LocalDateTime startOfUnload, LocalDateTime endOfUnload) {
+    public void updateUnloading(Loading loading, LocalDateTime startOfUnload,
+                                LocalDateTime endOfUnload) {
         loading.setStartOfUnload(startOfUnload);
         loading.updateUnloadingDateTime(startOfUnload, endOfUnload);
 
