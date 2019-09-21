@@ -128,9 +128,9 @@
                     <input class="button" type="submit" value="Add Driver">
                 </form>
             </div>
-            <c:if test="${DriverCreated}">
+          <%--  <c:if test="${DriverCreated}">
                 <p style="color: greenyellow">Driver Created!</p>
-            </c:if>
+            </c:if>--%>
             <p style="color: red">${info}</p>
             <c:forEach var="driver" items="${driversList}">
                 <div>${driver.firstName} ${driver.lastName} ${driver.status}</div>

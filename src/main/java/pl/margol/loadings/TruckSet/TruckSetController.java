@@ -32,8 +32,8 @@ public class TruckSetController {
                        @RequestParam Long driverId) {
         String firstName = driverService.findDriver(driverId).getFirstName();
         String lastName = driverService.findDriver(driverId).getLastName();
-        truckPlate = truckPlate.trim().replaceAll("\\s*", "").toUpperCase();
-        trailerPlate = trailerPlate.trim().replaceAll("\\s*", "").toUpperCase();
+        truckPlate = truckPlate.trim().replaceAll("\\s*", "").toUpperCase(); //lepiej takie rzeczy w klasie domenowej ustawiać
+        trailerPlate = trailerPlate.trim().replaceAll("\\s*", "").toUpperCase(); // tak samo jak powyżej
 
         boolean created = truckSetService.create(truckPlate, trailerPlate, driverId, firstName,
                 lastName);

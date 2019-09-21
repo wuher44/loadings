@@ -1,12 +1,21 @@
 package pl.margol.loadings.Driver;
 
-import pl.margol.loadings.TruckSet.TruckSet;
-import pl.margol.loadings.Utils.Status;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.apache.commons.lang3.StringUtils;
+
+import pl.margol.loadings.TruckSet.TruckSet;
+import pl.margol.loadings.Utils.Status;
 
 @Entity
 public class Driver {
@@ -19,17 +28,30 @@ public class Driver {
     @Enumerated(EnumType.STRING)
     private Status status;
     @OneToMany(mappedBy = "driverId")
-    List<TruckSet> truckSetList;
+    private List<TruckSet> truckSetList;
 
 
     public Driver() {
     }
 
     public Driver(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        if (!StringUtils.isAlpha(firstName)) {
+            throw new IllegalArgumentException("First name must contain only letters");
+        }
+        if (!StringUtils.isAlpha(lastName)) {
+            throw new IllegalArgumentException("Last name must contain only letters");
+        }
+
+        this.firstName = toValidName(firstName);
+        this.lastName = toValidName(lastName);
         this.status = Status.AVAILABLE;
         this.truckSetList = new ArrayList<>();
+    }
+
+    public String toValidName(String name) {
+        return name.trim()
+                .replaceAll("\\s*", "")
+                .toUpperCase();
     }
 
     public Long getId() {
@@ -45,7 +67,11 @@ public class Driver {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        if (!StringUtils.isAlpha(firstName)) {
+            throw new IllegalArgumentException("First name must contain only letters");
+        }
+
+        this.firstName = toValidName(firstName);
     }
 
     public String getLastName() {
@@ -53,7 +79,11 @@ public class Driver {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        if (!StringUtils.isAlpha(lastName)) {
+            throw new IllegalArgumentException("Last name must contain only letters");
+        }
+
+        this.lastName = toValidName(lastName);
     }
 
     public Status getStatus() {
@@ -74,8 +104,12 @@ public class Driver {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Driver driver = (Driver) o;
         return Objects.equals(id, driver.id) &&
                 Objects.equals(firstName, driver.firstName) &&
@@ -90,12 +124,12 @@ public class Driver {
     }
 
     /*public String getCurrentTruckSet(){
-        return truckSetList.stream()
-                .sorted((s1,s2)-> s2.getId().compareTo(s1.getId()))
-                .findFirst()
-                .map(TruckSet::getName)
-                .orElse("");
-    }*/
+            return truckSetList.stream()
+                    .sorted((s1,s2)-> s2.getId().compareTo(s1.getId()))
+                    .findFirst()
+                    .map(TruckSet::getName)
+                    .orElse("");
+        }*/
     public String getCurrentTruckSet() {
         return truckSetList.stream()
                 .filter(ts -> ts.getStatus().equals(Status.ACTIVE))

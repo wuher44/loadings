@@ -9,5 +9,5 @@ import java.util.List;
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
     List<Customer> findAll();
 
-
+    List<Customer> findAllByOrderByNameAsc();
 }

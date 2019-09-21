@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class CustomerController {
+
+
     private final CustomerService customerService;
 
     public CustomerController(CustomerService customerService) {
@@ -20,18 +22,17 @@ public class CustomerController {
     }
 
     @PostMapping("/addCustomer")
-    String addCustomer(@RequestParam String customerName, Model model) {
-        Customer newCustomer = new Customer(customerName.toUpperCase());
+    String addCustomer(@RequestParam String name, Model model) {
+        Customer newCustomer = new Customer(name.toUpperCase());
 
-        boolean result = customerService.created(newCustomer);
-        if (!result) {
-            model.addAttribute("info", "Customer already exist!!!!");
-            return "customer/addCustomer";
-        } else {
+        try {
+            Long customerId = customerService.created(newCustomer);
+            model.addAttribute("customerId", customerId);
             model.addAttribute("info", "Customer created!!!!");
             return "customer/addCustomer";
+        } catch (Exception e) {
+            model.addAttribute("info", e.getLocalizedMessage());
+            return "customer/addCustomer";
         }
-
-
     }
 }

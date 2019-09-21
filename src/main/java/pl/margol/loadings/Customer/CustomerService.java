@@ -1,11 +1,12 @@
 package pl.margol.loadings.Customer;
 
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerService {
+
     private CustomerRepository customerRepository;
 
     public CustomerService(CustomerRepository customerRepository) {
@@ -17,13 +18,21 @@ public class CustomerService {
     }
 
 
-    public boolean created(Customer newCustomer) {
-        if (customerRepository.findAll().stream().anyMatch(e -> newCustomer.getName().equals(e.getName()))) {
-            return false;
-        } else {
-            Customer created = customerRepository.save(newCustomer);
-            return true;
-
+    public Long created(Customer newCustomer) {
+        if (nameIsNotUnique(newCustomer)) {
+            throw new IllegalArgumentException("Customer already exist!!!!");
         }
+
+        return customerRepository.save(newCustomer).getId();
+    }
+
+    private boolean nameIsNotUnique(Customer newCustomer) {
+        return customerRepository.findAll()
+            .stream()
+            .anyMatch(e -> newCustomer.getName().equals(e.getName()));
+    }
+
+    public List<Customer> findAllByOrderByNameAsc() {
+        return customerRepository.findAllByOrderByNameAsc();
     }
 }

@@ -1,11 +1,20 @@
 package pl.margol.loadings.Loading;
 
-import pl.margol.loadings.Utils.Status;
-import javax.persistence.*;
 import java.time.LocalDateTime;
+
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import org.apache.commons.lang3.StringUtils;
+import pl.margol.loadings.Utils.Status;
 
 @Entity
 public class Loading {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -38,6 +47,18 @@ public class Loading {
                    LocalDateTime plannedDateAndTimeOfLoad, String countryOfUnload,
                    String unloadingPlaceCode, LocalDateTime plannedDateAndTimeOfUnload,
                    String notes) {
+        if (price <= 0) {
+            throw new IllegalArgumentException("Add correct price");
+        }
+        if (!StringUtils.isEmpty(loadingPlaceCode) || !StringUtils.isEmpty(unloadingPlaceCode)) {
+            throw new IllegalArgumentException("Add postcode!!!!");
+        }
+        if (plannedWeight <= 0) {
+            throw new IllegalArgumentException("Add correct weight!!!!");
+        }
+        if (plannedDateAndTimeOfLoad.isAfter(plannedDateAndTimeOfUnload)) {
+            throw new IllegalArgumentException("Date of load cannot be after date of unload!!!!");
+        }
         this.truckSetId = truckSetId;
         this.customer = customer;
         this.adr = adr;
@@ -151,8 +172,26 @@ public class Loading {
         return endOfLoad;
     }
 
-    public void setEndOfLoad(LocalDateTime endOfLoad) {
-        this.endOfLoad = endOfLoad;
+    public void updateLoadingDateTime(LocalDateTime startOfLoad, LocalDateTime endOfLoad) {
+        if (startOfLoad != null && endOfLoad != null && startOfLoad.isBefore(endOfLoad)) {
+            this.startOfLoad = startOfLoad;
+            this.endOfLoad = endOfLoad;
+        }
+        if (endOfLoad != null && (startOfLoad == null || startOfLoad.isAfter(endOfLoad))) {
+            throw new IllegalArgumentException("Invalid values. startOfLoad must not be null nor " +
+                    "after endOfLoad");
+        }
+    }
+
+    public void updateUnloadingDateTime(LocalDateTime startOfUnload, LocalDateTime endOfUnload) {
+        if (startOfUnload != null && endOfUnload != null && startOfUnload.isBefore(endOfUnload)) {
+            this.startOfUnload = startOfUnload;
+            this.endOfUnload = endOfUnload;
+        }
+        if (endOfUnload != null && (startOfUnload == null || startOfUnload.isAfter(endOfUnload))) {
+            throw new IllegalArgumentException("Invalid values. startOfUnload must not be null " +
+                    "nor after endOfUnload");
+        }
     }
 
     public String getCountryOfUnload() {
@@ -221,4 +260,12 @@ public class Loading {
     }
 
 
+    public void updateWeight(Double weight) {
+        if (startOfLoad == null && endOfLoad == null || weight <= 0) {
+            throw new IllegalArgumentException("Weight must be > 0 and startOfLoad and endOfLoad " +
+                    "must be set");
+        }
+
+        this.loadedWeight = weight;
+    }
 }
