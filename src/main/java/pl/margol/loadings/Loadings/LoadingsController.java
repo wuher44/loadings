@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import pl.margol.loadings.Loading.Loading;
 import pl.margol.loadings.Loading.LoadingRepository;
-import pl.margol.loadings.Loading.LoadingService;
-import pl.margol.loadings.Utils.Status;
+
 
 @Controller
 public class LoadingsController {
@@ -39,4 +38,6 @@ public class LoadingsController {
     String root() {
         return "start";
     }
+
+
 }

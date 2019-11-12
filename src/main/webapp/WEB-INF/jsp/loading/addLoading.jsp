@@ -107,7 +107,7 @@
     <div class="form">
         <form method="post" action="/addLoading">
             <label>Choose TruckSet:</label>
-            
+
                 <select id="sel-1" style="width: 300px" name="truckSetId">
                     <c:forEach var="temp" items="${truckSetList}">
                         <c:if test="${temp.status=='ACTIVE'}">
@@ -115,7 +115,7 @@
                         </c:if>
                     </c:forEach>
                 </select>
-
+            
             <label>Customer </label>
             <select id="sel-2" style="width: 200px" name="customerName">
                 <c:forEach var="customer" items="${customersList}">
@@ -159,8 +159,7 @@
             <label>Unloading place code:</label>
             <input type="text" name="unloadingPlaceCode"><br>
             <p>${info}</p><label>Notes:</label>
-            <input type="text" name="notes">
-            <input type="submit" value="Add loading" style="border-radius: 5px; background-color: red; border-color: darkred;
+            <input type="text" name="notes"> <input type="submit" value="Add loading" style="border-radius: 5px; background-color: red; border-color: darkred;
         color: white;">
         </form>
     </div>

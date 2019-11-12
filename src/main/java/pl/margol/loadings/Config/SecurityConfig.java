@@ -1,7 +1,6 @@
 package pl.margol.loadings.Config;
 
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,10 +15,11 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    private final PasswordEncoder passwordEncoder =
+            PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     @Bean
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService() {
         UserDetails marcinGolebiewski = User.builder()
                 .username("wuher44")
                 .password(passwordEncoder.encode("w"))
@@ -31,7 +31,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .password(passwordEncoder.encode("m"))
                 .roles("FORWARDER")
                 .build();
-
 
 
         return new InMemoryUserDetailsManager(marcinGolebiewski, maciejWawrzak);
@@ -46,9 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers("/driver/delete/**").hasRole("ADMIN")
                 .mvcMatchers("/addTruckSet").hasRole("ADMIN")
                 .mvcMatchers("/truckSet/edit/**").hasRole("ADMIN")
-            //    .mvcMatchers("/addLoading").permitAll()
-           //     .mvcMatchers("/start").permitAll()
-            //    .mvcMatchers("/**").authenticated()
+                //    .mvcMatchers("/addLoading").permitAll()
+                //     .mvcMatchers("/start").permitAll()
+                //    .mvcMatchers("/**").authenticated()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().accessDeniedPage("/error")//.authenticated()
