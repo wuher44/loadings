@@ -1,11 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: MY
-  Date: 10.08.2019
-  Time: 11:25
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -13,11 +6,8 @@
 </head>
 <style>
     body {
-        background: url(https://i.pinimg.com/originals/49/52/67/4952670d3e78c749096d6d1f2536b324.jpg) no-repeat center center fixed;
         background-size: 100vw;
         align-items: center;
-
-
     }
 
     .container {
@@ -36,7 +26,6 @@
 
     .menu {
         width: 200px;
-        /*background-color: rgba(5, 17, 43, 0.7);*/
         float: left;
         height: auto;
         margin-top: 5px;
@@ -70,7 +59,6 @@
         text-decoration: none;
         color: red;
         display: block;
-        /*height: 50px;*/
         width: auto;;
     }
 
@@ -88,8 +76,6 @@
 
     .tg a {
         display: block;
-        /*height: 100%;
-        width: 100%;*/
         text-decoration: none;
         color: red;
         padding: revert;
@@ -99,12 +85,10 @@
         border-collapse: collapse;
         border-spacing: 0;
         border-color: #aabcfe;
-
     }
 
     .tg tr.row:hover {
         background-color: rgba(5, 17, 43, 0.9);
-
     }
 
     .tg td {
@@ -141,7 +125,6 @@
         background-color: rgba(5, 17, 43, 0.7);
         width: 4.76%;
         height: 100%;
-
     }
 
     .tg .tg-wp8o {
@@ -156,6 +139,7 @@
         text-align: center;
         vertical-align: top
     }
+
     .button {
         background-color: red;
         border-radius: 5px;

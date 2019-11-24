@@ -50,7 +50,7 @@ public class Loading {
         if (price <= 0) {
             throw new IllegalArgumentException("Add correct price");
         }
-        if (!StringUtils.isEmpty(loadingPlaceCode) || !StringUtils.isEmpty(unloadingPlaceCode)) {
+        if (StringUtils.isEmpty(loadingPlaceCode) || StringUtils.isEmpty(unloadingPlaceCode)) {
             throw new IllegalArgumentException("Add postcode!!!!");
         }
         if (plannedWeight <= 0) {

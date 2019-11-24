@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.margol.loadings.Driver.DriverService;
 import pl.margol.loadings.Utils.Status;
+
 import java.util.List;
 
 @Controller
@@ -32,8 +33,6 @@ public class TruckSetController {
                        @RequestParam Long driverId) {
         String firstName = driverService.findDriver(driverId).getFirstName();
         String lastName = driverService.findDriver(driverId).getLastName();
-        truckPlate = truckPlate.trim().replaceAll("\\s*", "").toUpperCase(); //lepiej takie rzeczy w klasie domenowej ustawiać
-        trailerPlate = trailerPlate.trim().replaceAll("\\s*", "").toUpperCase(); // tak samo jak powyżej
 
         boolean created = truckSetService.create(truckPlate, trailerPlate, driverId, firstName,
                 lastName);
@@ -65,8 +64,8 @@ public class TruckSetController {
 
         if (isEdited) {
 
-                driverService.editStatus(truckSetService.findTruckSet(id).getDriverId(),
-                        Status.AVAILABLE);
+            driverService.editStatus(truckSetService.findTruckSet(id).getDriverId(),
+                    Status.AVAILABLE);
 
         }
         return "redirect:/truckSetList";

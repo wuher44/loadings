@@ -1,11 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: MY
-  Date: 10.08.2019
-  Time: 13:05
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -13,7 +6,6 @@
 </head>
 <style>
     body {
-        background: url(https://i.pinimg.com/originals/49/52/67/4952670d3e78c749096d6d1f2536b324.jpg) no-repeat center center fixed;
         background-size: 100vw;
         align-items: center;
     }
@@ -68,7 +60,6 @@
         text-decoration: none;
         color: red;
         display: block;
-        /*height: 50px;*/
         width: auto;;
     }
 
@@ -108,14 +99,14 @@
         <form method="post" action="/addLoading">
             <label>Choose TruckSet:</label>
 
-                <select id="sel-1" style="width: 300px" name="truckSetId">
-                    <c:forEach var="temp" items="${truckSetList}">
-                        <c:if test="${temp.status=='ACTIVE'}">
-                            <option value="${temp.id}">${temp.name}</option>
-                        </c:if>
-                    </c:forEach>
-                </select>
-            
+            <select id="sel-1" style="width: 300px" name="truckSetId">
+                <c:forEach var="temp" items="${truckSetList}">
+                    <c:if test="${temp.status=='ACTIVE'}">
+                        <option value="${temp.id}">${temp.name}</option>
+                    </c:if>
+                </c:forEach>
+            </select>
+
             <label>Customer </label>
             <select id="sel-2" style="width: 200px" name="customerName">
                 <c:forEach var="customer" items="${customersList}">

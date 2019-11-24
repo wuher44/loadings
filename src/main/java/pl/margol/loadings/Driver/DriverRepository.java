@@ -32,10 +32,6 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
     List<Driver> findAllByStatus(Status status);
 
 
-
-
-
-
 }
 
 

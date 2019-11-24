@@ -13,11 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import pl.margol.loadings.Customer.Customer;
 import pl.margol.loadings.Customer.CustomerService;
 import pl.margol.loadings.TruckSet.TruckSetService;
-import pl.margol.loadings.Utils.Status;
 
 @Controller
 public class LoadingController {
@@ -38,10 +36,18 @@ public class LoadingController {
         this.customerService = customerService;
     }
 
+    private void initLoadingForm(Model model) {
+        List<Customer> customers = customerService.findAllByOrderByNameAsc();
+        model.addAttribute("truckSetList", truckSetService.listAll());
+        model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
+        model.addAttribute("customersList", customers);
+        model.addAttribute("adrCodes", ADR_CODES);
+        model.addAttribute("countries", COUNTRIES);
+    }
+
 
     @GetMapping("/addLoading")
     String addLoadingForm(Model model) {
-        System.out.println("jestem w /addLoading GET");
         initLoadingForm(model);
 
         return "/loading/addLoading";
@@ -62,60 +68,26 @@ public class LoadingController {
                                  DateTimeFormat.ISO.DATE_TIME) LocalDateTime plannedDateTimeUnload,
                          @RequestParam String notes, Model model) {
 
-        System.out.println("jestem w /addLoading POST");
+
         initLoadingForm(model);
+
         try {
             Long loadingId = loadingService.createLoading(truckSetId, customerName, adr, price,
                     currency,
                     countryOfLoad, loadingPlaceCode, weight, plannedDateTimeLoad, countryOfUnload
                     , unloadingPlaceCode,
                     plannedDateTimeUnload, notes);
-            model.addAttribute("loadingId", loadingId);
 
+            model.addAttribute("loadingId", loadingId);
 
         } catch (Exception e) {
             model.addAttribute("info", e.getLocalizedMessage());
             return "/loading/addLoading";
         }
         return "redirect:/listOfLoadings";
-
-        //Refactor tak żeby te ify rzucały wyjątki i były w serwisie razem z liniami 91-95 ( tak
-        // jak w Driver'ze
-       /* if (price <= 0) {
-            model.addAttribute("info", "Add correct price!!!!");
-            return "/loading/addLoading";
-        }
-        if (loadingPlaceCode.isEmpty() || unloadingPlaceCode.isEmpty()) {
-            model.addAttribute("info", "Add postcode!!!!");
-            return "/loading/addLoading";
-        }
-        if (weight <= 0) {
-            model.addAttribute("info", "Add correct weight!!!!");
-            return "/loading/addLoading";
-        }
-        if (plannedDateTimeLoad.isAfter(plannedDateTimeUnload)) {
-            model.addAttribute("info", "Date of load cannot be after date of unload!!!!");
-            return "/loading/addLoading";
-        }
-
-        Loading newLoading = new Loading(truckSetId, customerName, adr, price, currency,
-        countryOfLoad,
-            loadingPlaceCode, weight, plannedDateTimeLoad, countryOfUnload, unloadingPlaceCode,
-            plannedDateTimeUnload, notes);
-
-        loadingService.createLoading(newLoading);*/
-
-
     }
 
-    private void initLoadingForm(Model model) {
-        List<Customer> customers = customerService.findAllByOrderByNameAsc();
-        model.addAttribute("truckSetList", truckSetService.listAll());
-        model.addAttribute("dateTimeNow", LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
-        model.addAttribute("customersList", customers);
-        model.addAttribute("adrCodes", ADR_CODES);
-        model.addAttribute("countries", COUNTRIES);
-    }
+
 
 
     @GetMapping("/listOfLoadings")

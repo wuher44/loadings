@@ -3,7 +3,6 @@ package pl.margol.loadings.Driver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import org.apache.commons.lang3.StringUtils;
-
 import pl.margol.loadings.TruckSet.TruckSet;
 import pl.margol.loadings.Utils.Status;
 

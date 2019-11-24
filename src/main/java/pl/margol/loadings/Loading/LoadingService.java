@@ -19,11 +19,14 @@ public class LoadingService {
 
 
     public Long createLoading(Long truckSetId, String customerName, String adr, int price,
-                              String currency, String countryOfLoad, String loadingPlaceCode, double weight,
+                              String currency, String countryOfLoad, String loadingPlaceCode,
+                              double weight,
                               LocalDateTime plannedDateTimeLoad, String countryOfUnload,
-                              String unloadingPlaceCode, LocalDateTime plannedDateTimeUnload, String notes) {
+                              String unloadingPlaceCode, LocalDateTime plannedDateTimeUnload,
+                              String notes) {
 
-        Loading newLoading = new Loading(truckSetId, customerName, adr, price, currency, countryOfLoad,
+        Loading newLoading = new Loading(truckSetId, customerName, adr, price, currency,
+                countryOfLoad,
                 loadingPlaceCode, weight, plannedDateTimeLoad, countryOfUnload, unloadingPlaceCode,
                 plannedDateTimeUnload, notes);
 

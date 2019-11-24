@@ -28,8 +28,8 @@ public class CustomerService {
 
     private boolean nameIsNotUnique(Customer newCustomer) {
         return customerRepository.findAll()
-            .stream()
-            .anyMatch(e -> newCustomer.getName().equals(e.getName()));
+                .stream()
+                .anyMatch(e -> newCustomer.getName().equals(e.getName()));
     }
 
     public List<Customer> findAllByOrderByNameAsc() {

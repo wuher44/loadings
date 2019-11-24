@@ -2,6 +2,7 @@ package pl.margol.loadings.TruckSet;
 
 import pl.margol.loadings.Loading.Loading;
 import pl.margol.loadings.Utils.Status;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,9 @@ public class TruckSet {
     }
 
     public TruckSet(String truckPlate, String trailerPlate, Long driverId) {
+        truckPlate = truckPlate.trim().replaceAll("\\s*", "").toUpperCase();
+        trailerPlate = trailerPlate.trim().replaceAll("\\s*", "").toUpperCase();
+
         this.truckPlate = truckPlate;
         this.trailerPlate = trailerPlate;
         this.driverId = driverId;

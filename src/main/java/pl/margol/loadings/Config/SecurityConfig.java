@@ -21,14 +21,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails marcinGolebiewski = User.builder()
-                .username("wuher44")
-                .password(passwordEncoder.encode("w"))
+                .username("admin")
+                .password(passwordEncoder.encode("a"))
                 .roles("FORWARDER", "ADMIN")
                 .build();
 
         UserDetails maciejWawrzak = User.builder()
-                .username("maciek")
-                .password(passwordEncoder.encode("m"))
+                .username("john")
+                .password(passwordEncoder.encode("j"))
                 .roles("FORWARDER")
                 .build();
 

@@ -1,11 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: MY
-  Date: 13.08.2019
-  Time: 01:07
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -13,15 +6,12 @@
 </head>
 <style type="text/css">
     body {
-        background: url(https://i.pinimg.com/originals/49/52/67/4952670d3e78c749096d6d1f2536b324.jpg) no-repeat center center fixed;
         background-size: 100vw;
         align-items: center;
     }
 
     .tg a {
         display: block;
-        /*height: 100%;
-        width: 100%;*/
         text-decoration: none;
         color: red;
         padding: revert;
