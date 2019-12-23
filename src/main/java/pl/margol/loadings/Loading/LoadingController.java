@@ -1,30 +1,31 @@
 package pl.margol.loadings.Loading;
 
+import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pl.margol.loadings.Customer.Customer;
 import pl.margol.loadings.Customer.CustomerService;
+import pl.margol.loadings.TruckSet.TruckSet;
 import pl.margol.loadings.TruckSet.TruckSetService;
 
 @Controller
 public class LoadingController {
 
-    private static final List<String> ADR_CODES = Arrays.asList("-", "1", "2", "3", "4", "5", "6"
-            , "7", "8", "9");
+    private static final List<String> ADR_CODES = Arrays.asList("-", "1", "2", "3", "4.1", "4.2",
+            "4.3", "5.1", "5.2", "6.1", "6.2", "7", "8", "9", "KAT1", "KAT2", "KAT3");
     private static final List<String> COUNTRIES = Arrays.asList("AT", "B", "BG", "CZ", "D", "DK",
-            "EST", "ESP",
-            "HR", "HU", "IT", "LT", "LV", "NL", "P", "PL", "RO", "SK", "SLO", "SWE");
+            "EST", "ESP", "HR", "HU", "IT", "LT", "LV", "NL", "P", "PL", "RO", "SK", "SLO", "SWE"
+            , "UA");
     private LoadingService loadingService;
     private TruckSetService truckSetService;
     private CustomerService customerService;
@@ -88,15 +89,40 @@ public class LoadingController {
     }
 
 
-
-
     @GetMapping("/listOfLoadings")
     String listLoadings(Model model) {
         List<Loading> list = loadingService.listAllLoadingsByPlannedDate();
-
+        List<TruckSet> truckSetList = truckSetService.listAll();
+        List<Customer> customers = customerService.findAllByOrderByNameAsc();
         model.addAttribute("listOfAllLoadings", list);
-
+        model.addAttribute("truckSetList", truckSetList);
+        model.addAttribute("customersList", customers);
+        model.addAttribute("countries", COUNTRIES);
         return "loading/listOfLoadings";
+    }
+
+    @PostMapping("/listOfLoadings")
+    String listOfLoadingsFilter(String customerName, String loadingPlace, String unloadingPlace,
+                                @RequestParam(required = false) String from,
+                                @RequestParam(required = false) String to, Model model) {
+
+        List<Loading> list = loadingService.listAllLoadingsByPlannedDate().stream()
+                .filter(l -> !customerName.isEmpty() == l.getCustomer().equals(customerName))
+                .filter(l -> !loadingPlace.isEmpty() == l.getCountryOfLoad().equals(loadingPlace))
+                .filter(l -> !unloadingPlace.isEmpty() == l.getCountryOfUnload().equals(unloadingPlace))
+                .filter(l -> l.getPlannedDateAndTimeOfLoad().toLocalDate().isAfter(from.isEmpty() ? LocalDate.MIN : LocalDate.parse(from)))
+                .filter(l -> l.getPlannedDateAndTimeOfLoad().toLocalDate().isBefore(to.isEmpty()
+                        ? LocalDate.MAX : LocalDate.parse(to)))
+                .collect(Collectors.toList());
+
+        List<TruckSet> truckSetList = truckSetService.listAll();
+        List<Customer> customers = customerService.findAllByOrderByNameAsc();
+        model.addAttribute("listOfAllLoadings", list);
+        model.addAttribute("truckSetList", truckSetList);
+        model.addAttribute("customersList", customers);
+        model.addAttribute("countries", COUNTRIES);
+        return "loading/listOfLoadings";
+
     }
 
     @GetMapping("/loading/setLoad/{id}")
@@ -151,6 +177,12 @@ public class LoadingController {
 
         return "redirect:/listOfLoadings";
 
+    }
+
+    @GetMapping("/loading/delete/{id}")
+    String deleteLoad(@PathVariable Long id, Model model) {
+        loadingService.deleteloading(id);
+        return "redirect:/listOfLoadings";
     }
 
 }

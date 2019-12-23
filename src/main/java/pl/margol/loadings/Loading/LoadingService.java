@@ -46,7 +46,7 @@ public class LoadingService {
     }
 
     public List<Loading> listAllLoadingsByPlannedDate() {
-        return loadingRepository.findAllByOrderByPlannedDateAndTimeOfLoadAsc();
+        return loadingRepository.findAllByOrderByPlannedDateAndTimeOfLoadDesc();
     }
 
     public void updateLoading(Loading loading, LocalDateTime startOfLoad, LocalDateTime endOfLoad,
@@ -72,5 +72,8 @@ public class LoadingService {
         }
 
         loadingRepository.save(loading);
+    }
+    public void deleteloading(Long id){
+        loadingRepository.deleteById(id);
     }
 }
