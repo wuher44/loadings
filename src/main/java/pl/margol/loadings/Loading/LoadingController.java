@@ -4,9 +4,7 @@ import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,7 +22,7 @@ public class LoadingController {
     private static final List<String> ADR_CODES = Arrays.asList("-", "1", "2", "3", "4.1", "4.2",
             "4.3", "5.1", "5.2", "6.1", "6.2", "7", "8", "9", "KAT1", "KAT2", "KAT3");
     private static final List<String> COUNTRIES = Arrays.asList("AT", "B", "BG", "CZ", "D", "DK",
-            "EST", "ESP", "HR", "HU", "IT", "LT", "LV", "NL", "P", "PL", "RO", "SK", "SLO", "SWE"
+            "EST", "ESP", "F", "HR", "HU", "IT", "LT", "LV", "NL", "P", "PL", "RO", "SK", "SLO", "SWE"
             , "UA");
     private LoadingService loadingService;
     private TruckSetService truckSetService;
@@ -91,7 +89,11 @@ public class LoadingController {
 
     @GetMapping("/listOfLoadings")
     String listLoadings(Model model) {
-        List<Loading> list = loadingService.listAllLoadingsByPlannedDate();
+        List<Loading> list = loadingService.listAllLoadingsByPlannedDate().stream()
+                .filter(loading -> loading.getPlannedDateAndTimeOfLoad().isAfter(LocalDateTime.now().minusMonths(1l)))
+                .collect(Collectors.toList());
+
+
         List<TruckSet> truckSetList = truckSetService.listAll();
         List<Customer> customers = customerService.findAllByOrderByNameAsc();
         model.addAttribute("listOfAllLoadings", list);
@@ -100,6 +102,8 @@ public class LoadingController {
         model.addAttribute("countries", COUNTRIES);
         return "loading/listOfLoadings";
     }
+
+
 
     @PostMapping("/listOfLoadings")
     String listOfLoadingsFilter(String customerName, String loadingPlace, String unloadingPlace,
@@ -122,8 +126,42 @@ public class LoadingController {
         model.addAttribute("customersList", customers);
         model.addAttribute("countries", COUNTRIES);
         return "loading/listOfLoadings";
-
     }
+    @GetMapping("/stats")
+    String stats(Model model) {
+        List<Integer> years = loadingService.searchDistinctYearsOfLoadings();
+        model.addAttribute("years", years);
+        model.addAttribute("selectedYear", null);
+        return "stats";
+    }
+    @PostMapping("/stats")
+    String stats(@RequestParam Integer year, Model model) {
+        Map<String, Double> eraTransStats = loadingService.listAllLoadingsByPlannedDate().stream()
+                .filter(loading -> loading.getEndOfLoad()!= null)
+                .filter(loading -> loading.getEndOfLoad().getYear() == year)
+                .filter(loading -> truckSetService.findTruckSet(loading.getTruckSetId()).getCompany().equals("ERA"))
+                .filter(loading -> loading.getLoadedWeight() != null)
+                .collect(Collectors.groupingBy(Loading::getAdr, Collectors.summingDouble(Loading::getLoadedWeight)));
+
+
+        Map<String, Double> mirpolTransStats = loadingService.listAllLoadingsByPlannedDate().stream()
+                .filter(loading -> loading.getEndOfLoad()!= null)
+                .filter(loading -> loading.getEndOfLoad().getYear() == year)
+                .filter(loading -> truckSetService.findTruckSet(loading.getTruckSetId()).getCompany().equals("MIRPOL"))
+                .filter(loading -> loading.getLoadedWeight() != null)
+                .collect(Collectors.groupingBy(Loading::getAdr, Collectors.summingDouble(Loading::getLoadedWeight)));
+
+
+        List<Integer> years = loadingService.searchDistinctYearsOfLoadings();
+
+        model.addAttribute("years", years);
+        model.addAttribute("eraStats", eraTransStats);
+        model.addAttribute("mirpolStats", mirpolTransStats);
+        model.addAttribute("selectedYear", year);
+
+        return "stats";
+    }
+
 
     @GetMapping("/loading/setLoad/{id}")
     String setLoadForm(@PathVariable Long id, Model model) {
