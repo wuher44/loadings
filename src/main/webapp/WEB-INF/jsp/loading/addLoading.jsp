@@ -127,6 +127,8 @@
             <select type="text" name="currency">
                 <option>EUR</option>
                 <option>PLN</option>
+                <option>EUR/t</option>
+                <option>PLN/t</option>
             </select>
             <br><br>
             <label>Country of load :</label>

@@ -20,14 +20,14 @@ public class TruckSet {
     private Status status;
     @OneToMany(mappedBy = "truckSetId")
     private List<Loading> loadingList;
+    private String company;
 
 
     public TruckSet() {
     }
 
-    public TruckSet(String truckPlate, String trailerPlate, Long driverId) {
-        truckPlate = truckPlate.trim().replaceAll("\\s*", "").toUpperCase();
-        trailerPlate = trailerPlate.trim().replaceAll("\\s*", "").toUpperCase();
+    public TruckSet( String truckPlate, String trailerPlate, Long driverId, String company) {
+
 
         this.truckPlate = truckPlate;
         this.trailerPlate = trailerPlate;
@@ -35,6 +35,7 @@ public class TruckSet {
         this.name = null;
         this.status = Status.ACTIVE;
         this.loadingList = new ArrayList<>();
+        this.company=company;
     }
 
     public Long getId() {
@@ -93,5 +94,12 @@ public class TruckSet {
         this.loadingList = loadingList;
     }
 
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
 
 }

@@ -30,14 +30,24 @@ public class TruckSetController {
 
     @PostMapping("/addTruckSet")
     String addTruckSet(@RequestParam String truckPlate, @RequestParam String trailerPlate,
-                       @RequestParam Long driverId) {
+                       @RequestParam Long driverId, @RequestParam String company, Model model) {
         String firstName = driverService.findDriver(driverId).getFirstName();
         String lastName = driverService.findDriver(driverId).getLastName();
 
-        boolean created = truckSetService.create(truckPlate, trailerPlate, driverId, firstName,
-                lastName);
-        if (created) {
-            driverService.editStatus(driverId, Status.NOT_AVAILABLE);
+        truckPlate = truckPlate.trim().replaceAll("\\s*", "").toUpperCase();
+        trailerPlate = trailerPlate.trim().replaceAll("\\s*", "").toUpperCase();
+        company = company.trim().toUpperCase();
+        if (company.equals("ERA") || company.equals("MIRPOL")) {
+            boolean created = truckSetService.create(truckPlate, trailerPlate, driverId, firstName,
+                    lastName, company);
+
+            if (created) {
+                driverService.editStatus(driverId, Status.NOT_AVAILABLE);
+            }
+            model.addAttribute("info", "TruckSet Created");
+        } else {
+            model.addAttribute("info", "ERA or Mirpol only!");
+            model.addAttribute("driversList", driverService.listAllDrivers());
         }
 
         return "truckSet/addTruckSet";

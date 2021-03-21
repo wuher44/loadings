@@ -14,9 +14,9 @@ public class TruckSetService {
     }
 
     boolean create(String truckPlate, String trailerPlate, Long driverId, String firstName,
-                   String lastName) {
+                   String lastName, String company) {
 
-        TruckSet truckSet = new TruckSet(truckPlate, trailerPlate, driverId);
+        TruckSet truckSet = new TruckSet(truckPlate, trailerPlate, driverId, company);
         truckSet.setName(lastName + " " + firstName + " " + truckPlate + " " + trailerPlate);
         truckSet.setStatus(Status.ACTIVE);
 

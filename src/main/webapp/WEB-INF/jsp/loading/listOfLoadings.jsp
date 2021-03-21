@@ -134,22 +134,21 @@
         <th class="tg-wp8o" rowspan="2">Customer</th>
         <th class="tg-wp8o" rowspan="2">ADR</th>
         <th class="tg-wp8o" rowspan="2">Price</th>
-        <th class="tg-wp8o" rowspan="2">Curr.</th>
+        <th class="tg-wp8o" rowspan="2">Total price</th>
         <th class="tg-wp8o" rowspan="2">Pl. Weight</th>
-        <th class="tg-wp8o" colspan="6">Load</th>
-        <th class="tg-wp8o" colspan="5">Unload</th>
+        <th class="tg-wp8o" colspan="5">Load</th>
+        <th class="tg-wp8o" colspan="4">Unload</th>
         <th class="tg-wp8o" rowspan="2">Notes</th>
         <th class="tg-wp8o" rowspan="2">Status</th>
     </tr>
     <tr>
-        <th class="tg-wp8o">Country</th>
-        <th class="tg-wp8o">Code</th>
+
+        <th class="tg-wp8o">Loading place</th>
         <th class="tg-wp8o">Pl. Date and Time</th>
         <th class="tg-wp8o">Start</th>
         <th class="tg-wp8o">End</th>
         <th class="tg-wp8o">Loaded Weight</th>
-        <th class="tg-wp8o">Country</th>
-        <th class="tg-wp8o">Code</th>
+        <th class="tg-wp8o">Unloading place</th>
         <th class="tg-wp8o">Pl. Date and Time</th>
         <th class="tg-wp8o">Start</th>
         <th class="tg-wp8o">End</th>
@@ -165,11 +164,20 @@
             </td>
             <td class="tg-8a48"><a href="#">${loading.customer}</a></td>
             <td class="tg-8a48"><a href="#">${loading.adr}</a></td>
-            <td class="tg-8a48"><a href="#">${loading.price}</a></td>
-            <td class="tg-8a48"><a href="#">${loading.currency}</a></td>
+            <td class="tg-8a48"><a href="#">${loading.price} ${loading.currency}</a></td>
+            <td class="tg-8a48">
+                <a href="#">
+                <c:if test="${loading.loadedWeight!=null}">
+                    <c:if test="${loading.currency=='EUR/t'}">${String.format("%.2f", loading.price*loading.loadedWeight)} EUR</c:if>
+                    <c:if test="${loading.currency=='PLN/t'}">${String.format("%.2f", loading.price*loading.loadedWeight)} PLN</c:if>
+                    <c:if test="${loading.currency=='PLN'}">${loading.price} PLN</c:if>
+                    <c:if test="${loading.currency=='EUR'}">${loading.price} EUR</c:if>
+                </c:if>
+                </a>
+            </td>
             <td class="tg-8a48"><a href="#">${loading.plannedWeight}</a></td>
-            <td class="tg-8a48"><a href="#">${loading.countryOfLoad}</a></td>
-            <td class="tg-8a48"><a href="#">${loading.loadingPlaceCode}</a></td>
+            <td class="tg-8a48"><a href="#">${loading.countryOfLoad} ${loading.loadingPlaceCode}</a></td>
+
             <td class="tg-8a48">
                 <a href="#">${loading.plannedDateAndTimeOfLoad.toLocalDate().toString().replaceAll("-", ".")} ${loading.plannedDateAndTimeOfLoad.toLocalTime()}</a>
             </td>
@@ -197,8 +205,7 @@
                     <a href="#">${loading.loadedWeight}</a>
                 </c:if>
             </td>
-            <td class="tg-8a48"><a href="#">${loading.countryOfUnload}</a></td>
-            <td class="tg-8a48"><a href="#">${loading.unloadingPlaceCode}</a></td>
+            <td class="tg-8a48"><a href="#">${loading.countryOfUnload} ${loading.unloadingPlaceCode}</a></td>
             <td class="tg-8a48">
                 <a href="#">${loading.plannedDateAndTimeOfUnload.toLocalDate().toString().replaceAll("-", ".")} ${loading.plannedDateAndTimeOfUnload.toLocalTime()}</a>
             </td>

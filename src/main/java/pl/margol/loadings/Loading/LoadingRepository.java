@@ -1,5 +1,6 @@
 package pl.margol.loadings.Loading;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +18,7 @@ public interface LoadingRepository extends CrudRepository<Loading, Long> {
     List<Loading> findAllByOrderByPlannedDateAndTimeOfLoadAsc();
 
     List<Loading> findAllByOrderByPlannedDateAndTimeOfLoadDesc();
+
+    @Query("SELECT DISTINCT YEAR(endOfLoad) FROM Loading  where endOfLoad IS NOT NULL")
+    List<Integer> searchDistinctYearsOfLoadings();
 }

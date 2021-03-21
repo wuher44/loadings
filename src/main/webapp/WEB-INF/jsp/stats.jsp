@@ -105,42 +105,37 @@
     </div>
     <div class="form">
         <fieldset>
-            <legend>Create TruckSet</legend>
+            <legend>Choose year</legend>
             <div>
-                <form method="post" action="/addTruckSet">
-                    <label>Truck Plate: </label>
-                    <input type="text" name="truckPlate"><br><br>
-                    <label>Trailer Plate: </label>
-                    <input type="text" name="trailerPlate"><br><br>
-                    <label>Company (Mirpol or Era): </label>
-                    <input type="text" name="company">
-                    <br><br>
-                    <label>Choose available driver: </label>
-                    <select id="sel" style="width: 200px" name="driverId">
-                        <c:forEach var="temp" items="${driversList}">
-                            <c:if test="${temp.status=='AVAILABLE'}">
-                                <option value="${temp.id}">${temp.firstName} ${temp.lastName}</option>
+                <form method="post" action="/stats">
+
+
+                    <select id="sel" style="width: 200px" name="year" value="2555">
+                        <c:forEach var="year" items="${years}">
+                            <c:if test="${year==selectedYear}">
+                                <option value="${year}" selected>${year}</option>
+                            </c:if>
+                            <c:if test="${year!=selectedYear}">
+                                <option value="${year}">${year}</option>
                             </c:if>
                         </c:forEach>
                     </select>
                     <br><br>
-                    <p>${info}</p>
-                    <input class="button" type="submit" value="Add TruckSet">
+                    <input class="button" type="submit" value="Calculate">
                 </form>
             </div>
         </fieldset>
-        <c:if test="${TruckSetCreated}">
-            TruckSet Created!
-        </c:if>
+        <div>ERA : ${eraStats}</div>
+        <div>MIRPOL : ${mirpolStats}</div>
+
+
     </div>
     <div class="footer">
         Your Loadings Manager 1.0 &copy wuher44@gmail.com
     </div>
 
 
-    <c:forEach var="driver" items="${driversList}">
-    <div>${driver.firstName} ${driver.lastName} ${driver.status}</div>
-    </c:forEach>
+
 
 
 </body>

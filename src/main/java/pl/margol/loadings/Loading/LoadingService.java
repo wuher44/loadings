@@ -48,6 +48,9 @@ public class LoadingService {
     public List<Loading> listAllLoadingsByPlannedDate() {
         return loadingRepository.findAllByOrderByPlannedDateAndTimeOfLoadDesc();
     }
+    public List<Integer> searchDistinctYearsOfLoadings(){
+        return loadingRepository.searchDistinctYearsOfLoadings();
+    }
 
     public void updateLoading(Loading loading, LocalDateTime startOfLoad, LocalDateTime endOfLoad,
                               Double weight) {
